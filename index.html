@@ -1,0 +1,3285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>ZCART | Official Clothing & Streetwear Store</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            obsidian: '#09090B',
+            charcoal: '#121216',
+            panel: '#18181F',
+            gold: '#D4AF37',
+            goldsoft: '#E5C76B',
+            canvas: '#F4F4F6'
+          },
+          fontFamily: {
+            display: ['"Space Grotesk"', 'sans-serif'],
+            sans: ['"Plus Jakarta Sans"', 'sans-serif']
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      width: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
+      overscroll-behavior-x: none;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #F4F4F6;
+      color: #09090B;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .font-display {
+      font-family: 'Space Grotesk', sans-serif;
+    }
+
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    .tap-press {
+      transition: transform 0.14s cubic-bezier(0.22, 1, 0.36, 1), background-color 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
+    }
+    .tap-press:active {
+      transform: scale(0.95);
+    }
+
+    @keyframes bootPulse {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(280%); }
+    }
+
+    @keyframes popIn {
+      0% { opacity: 0; transform: translateY(10px) scale(0.97); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .boot-bar-anim {
+      animation: bootPulse 1.05s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    }
+
+    .modal-pop {
+      animation: popIn 0.22s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    .hero-surface {
+      background:
+        radial-gradient(circle at 88% 18%, rgba(212, 175, 55, 0.16) 0%, rgba(212, 175, 55, 0) 48%),
+        linear-gradient(135deg, #0D0D11 0%, #17171E 58%, #0A0A0D 100%);
+    }
+  </style>
+</head>
+<body class="min-h-screen w-full max-w-full flex flex-col">
+
+  <!-- ==================== BOOT PRELOADER ==================== -->
+  <div id="bootScreen" class="fixed inset-0 z-[100] bg-obsidian text-white flex flex-col items-center justify-center px-5 transition-opacity duration-500">
+    <div class="w-full max-w-xs text-center space-y-5">
+      <div class="w-40 mx-auto">
+        <!-- Custom ZCART Emblem SVG -->
+        <svg viewBox="0 0 360 220" class="w-full h-auto" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="ZCART Logo">
+          <path d="M96 30H238L216 52H74L96 30Z" fill="#FFFFFF" />
+          <path d="M238 30L154 102H124L208 30H238Z" fill="#FFFFFF" />
+          <path d="M56 142C116 94 214 50 252 40C276 34 286 48 272 68C262 82 244 94 228 102C250 84 262 68 256 58C248 46 184 70 56 142Z" fill="#FFFFFF" />
+          <path d="M138 108L108 132H226L206 154H72L108 108H138Z" fill="#FFFFFF" />
+          <path d="M222 88H238L244 100H306C310 100 313 104 311 108L299 136C298 139 295 141 291 141H252L244 104H232L226 94H222V88Z" fill="#FFFFFF" />
+          <circle cx="258" cy="152" r="8.5" fill="#FFFFFF" />
+          <circle cx="290" cy="152" r="8.5" fill="#FFFFFF" />
+          <text x="180" y="200" text-anchor="middle" fill="#FFFFFF" font-family="'Space Grotesk', sans-serif" font-weight="700" font-style="italic" font-size="48" letter-spacing="8">ZCART</text>
+        </svg>
+      </div>
+      <div class="space-y-1.5">
+        <p class="font-display text-xl sm:text-2xl font-bold tracking-wider uppercase text-white">WELCOME TO Z CART</p>
+        <p id="bootStatusText" class="text-[11px] font-bold tracking-[0.22em] uppercase text-goldsoft">CONNECTING SERVER</p>
+      </div>
+      <div class="w-48 mx-auto h-1.5 rounded-full bg-panel border border-zinc-800 overflow-hidden">
+        <div class="boot-bar-anim w-20 h-full rounded-full bg-gradient-to-r from-transparent via-gold to-transparent"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== TOP ANNOUNCEMENT BAR ==================== -->
+  <div class="w-full max-w-full bg-obsidian text-zinc-200 text-[11px] py-2 px-3 sm:px-6 border-b border-zinc-800/90">
+    <div class="max-w-7xl mx-auto flex items-center justify-between gap-2 min-w-0">
+      <span id="topAnnouncementDisplay" class="font-semibold truncate">✦ Free Standard Shipping Above ₹999 • QR Prepaid Only</span>
+      <a id="topHelplineLink" href="https://instagram.com/zcartofficials_" target="_blank" rel="noopener noreferrer" onclick="playSound('tap')" class="inline-flex items-center gap-1.5 font-bold text-goldsoft hover:text-white shrink-0">
+        <i class="fa-brands fa-instagram"></i>
+        <span id="topHelplineHandle">@zcartofficials_</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- ==================== STICKY HEADER ==================== -->
+  <header class="sticky top-0 z-40 w-full max-w-full bg-obsidian/95 backdrop-blur-md text-white border-b border-zinc-800">
+    <div class="max-w-7xl mx-auto px-3 sm:px-6">
+      <div class="h-14 sm:h-16 flex items-center justify-between gap-2 min-w-0">
+        <!-- Brand Logo -->
+        <button type="button" onclick="resetStoreFilters(); window.scrollTo({ top: 0, behavior: 'smooth' });" class="tap-press flex items-center gap-2 text-left min-w-0 shrink">
+          <div class="w-10 h-9 rounded-xl bg-panel border border-zinc-700/80 flex items-center justify-center p-1 shrink-0">
+            <svg viewBox="0 0 260 155" class="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M36 22H164L144 42H16L36 22Z" fill="#FFFFFF" />
+              <path d="M164 22L88 88H60L136 22H164Z" fill="#FFFFFF" />
+              <path d="M6 122C60 78 144 38 178 30C198 25 206 38 194 55C186 67 170 78 156 85C175 70 185 56 180 47C173 36 116 58 6 122Z" fill="#FFFFFF" />
+              <path d="M74 92L46 114H152L134 134H14L46 92H74Z" fill="#FFFFFF" />
+              <path d="M150 74H164L170 85H226C230 85 233 89 231 93L220 118C219 121 216 123 212 123H178L170 89H158L153 80H150V74Z" fill="#FFFFFF" />
+              <circle cx="183" cy="133" r="7.5" fill="#FFFFFF" />
+              <circle cx="211" cy="133" r="7.5" fill="#FFFFFF" />
+            </svg>
+          </div>
+          <div class="min-w-0">
+            <span id="headerBrandName" class="font-display font-bold italic text-lg sm:text-2xl tracking-wider text-white block leading-none truncate">ZCART</span>
+            <span class="text-[9px] uppercase tracking-[0.2em] text-zinc-400 block mt-0.5 truncate">Clothing & Couture</span>
+          </div>
+        </button>
+
+        <!-- Desktop Search -->
+        <div class="hidden md:flex flex-1 max-w-md mx-4">
+          <div class="relative w-full">
+            <input
+              type="text"
+              id="desktopSearch"
+              oninput="handleSearchQuery(this.value)"
+              placeholder="Search shirts, kurtis, hoodies, sarees, kids wear..."
+              class="w-full pl-9 pr-4 py-2 rounded-full bg-panel border border-zinc-700 focus:border-gold text-xs sm:text-sm text-white placeholder-zinc-400 outline-none"
+            />
+            <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-400 text-xs"></i>
+          </div>
+        </div>
+
+        <!-- Header Actions -->
+        <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
+          <button
+            type="button"
+            id="soundToggleBtn"
+            onclick="toggleSound()"
+            title="Toggle Tap Sounds"
+            class="tap-press w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-panel border border-zinc-700 hover:border-white flex items-center justify-center text-white"
+          >
+            <i id="soundToggleIcon" class="fa-solid fa-volume-high text-xs"></i>
+          </button>
+
+          <button
+            type="button"
+            onclick="openTrackModal()"
+            class="tap-press h-8 sm:h-9 px-2.5 sm:px-3 rounded-lg bg-panel border border-zinc-700 hover:border-white text-xs font-bold text-white inline-flex items-center gap-1.5"
+          >
+            <i class="fa-solid fa-truck-fast text-goldsoft text-xs"></i>
+            <span class="hidden sm:inline">Track</span>
+          </button>
+
+          <button
+            type="button"
+            onclick="openBagDrawer()"
+            class="tap-press h-8 sm:h-9 px-2.5 sm:px-3.5 rounded-lg bg-white hover:bg-zinc-200 text-obsidian text-xs font-extrabold inline-flex items-center gap-1.5"
+          >
+            <i class="fa-solid fa-bag-shopping text-xs"></i>
+            <span>Bag</span>
+            <span id="bagCountBadge" class="inline-flex items-center justify-center min-w-[18px] h-[18px] px-1 text-[10px] font-extrabold rounded-full bg-obsidian text-white">0</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Search -->
+      <div class="md:hidden pb-2.5">
+        <div class="relative w-full">
+          <input
+            type="text"
+            id="mobileSearch"
+            oninput="handleSearchQuery(this.value)"
+            placeholder="Search outfits, kurtis, tees, winter wear..."
+            class="w-full pl-9 pr-3 py-2 rounded-xl bg-panel border border-zinc-800 focus:border-zinc-500 text-xs text-white placeholder-zinc-400 outline-none"
+          />
+          <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400 text-xs"></i>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Maintenance Mode Banner -->
+  <div id="maintenanceBanner" class="hidden w-full max-w-full bg-amber-400 text-obsidian px-4 py-2.5 text-center text-xs font-extrabold border-b border-amber-500">
+    <i class="fa-solid fa-triangle-exclamation mr-1.5"></i> Store Maintenance Mode Active — Checkout Temporarily Paused
+  </div>
+
+  <!-- ==================== HERO SECTION ==================== -->
+  <section class="w-full max-w-full bg-obsidian text-white border-b border-zinc-800">
+    <div class="max-w-7xl mx-auto px-3.5 sm:px-6 py-6 sm:py-10">
+      <div id="heroCardBox" class="hero-surface rounded-2xl sm:rounded-3xl p-4 sm:p-8 border border-zinc-800/90 shadow-2xl relative overflow-hidden">
+        <div id="heroBgPhoto" class="hidden absolute inset-0 bg-cover bg-center opacity-20 pointer-events-none"></div>
+        <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+          <div class="lg:col-span-7 space-y-3.5 min-w-0">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-panel border border-zinc-700 text-[10px] sm:text-xs font-bold tracking-wider uppercase text-goldsoft max-w-full">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 shrink-0"></span>
+              <span id="heroBadgeDisplay" class="truncate">NEW COLLECTION • QR PREPAID & WHATSAPP RECEIPT</span>
+            </div>
+
+            <h1 class="font-display text-2xl sm:text-4xl lg:text-5xl font-bold tracking-tight leading-tight text-white">
+              <span id="heroTitleDisplay">Fresh Daily Fits & Festive Wear at</span>
+              <span id="heroBrandSpan" class="italic text-gold"> ZCART</span>
+            </h1>
+
+            <p id="heroSubtitleDisplay" class="text-zinc-300 text-xs sm:text-base leading-relaxed">
+              Shop curated streetwear, ethnic kurtis, sarees, jackets, and kids fashion. Pay via UPI QR code and get your complete itemized order summary on WhatsApp.
+            </p>
+
+            <div class="flex flex-wrap gap-2.5 pt-1">
+              <button type="button" onclick="playSound('tap'); document.getElementById('catalogArea').scrollIntoView({ behavior: 'smooth' });" class="tap-press px-5 py-3 rounded-xl bg-white hover:bg-zinc-200 text-obsidian font-extrabold text-xs sm:text-sm inline-flex items-center gap-2">
+                <span id="heroCtaDisplay">Explore Clothes</span>
+                <i class="fa-solid fa-arrow-down text-xs"></i>
+              </button>
+              <button type="button" onclick="openTrackModal()" class="tap-press px-4 py-3 rounded-xl bg-panel hover:bg-zinc-800 border border-zinc-700 text-white font-bold text-xs sm:text-sm inline-flex items-center gap-2">
+                <i class="fa-solid fa-box-open text-goldsoft"></i>
+                <span>Track Order</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Helpline & Storage Card -->
+          <div class="lg:col-span-5 min-w-0">
+            <div class="bg-obsidian/90 rounded-2xl p-4 sm:p-5 border border-zinc-800 space-y-3.5">
+              <div class="flex items-center justify-between gap-2 border-b border-zinc-800 pb-3">
+                <div class="min-w-0">
+                  <span class="text-[10px] font-bold uppercase tracking-widest text-zinc-400 block">Customer Helpline</span>
+                  <h2 class="font-display text-base sm:text-lg font-bold text-white truncate">ZCART Care Desk</h2>
+                </div>
+                <a id="heroInstaBadge" href="https://instagram.com/zcartofficials_" target="_blank" rel="noopener noreferrer" onclick="playSound('tap')" class="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-500 via-pink-600 to-purple-600 flex items-center justify-center text-white text-lg shrink-0">
+                  <i class="fa-brands fa-instagram"></i>
+                </a>
+              </div>
+
+              <div class="grid grid-cols-2 gap-2.5">
+                <div class="bg-panel p-3 rounded-xl border border-zinc-800">
+                  <i class="fa-solid fa-qrcode text-goldsoft text-sm mb-1"></i>
+                  <p class="font-bold text-white text-xs">QR Prepaid Only</p>
+                  <p class="text-zinc-400 text-[10px] mt-0.5">UPI Scan & UTR</p>
+                </div>
+                <div class="bg-panel p-3 rounded-xl border border-zinc-800">
+                  <i class="fa-brands fa-whatsapp text-emerald-400 text-sm mb-1"></i>
+                  <p class="font-bold text-white text-xs">WhatsApp Receipt</p>
+                  <p id="heroEtaDisplay" class="text-zinc-400 text-[10px] mt-0.5">3-5 Business Days</p>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between gap-2 bg-panel px-3 py-2.5 rounded-xl border border-zinc-800">
+                <div class="min-w-0">
+                  <span class="text-[10px] text-zinc-400 block">Instagram Helpline</span>
+                  <strong id="heroInstaHandleDisplay" class="text-white text-xs sm:text-sm font-bold truncate block">@zcartofficials_</strong>
+                </div>
+                <div class="flex items-center gap-1.5 shrink-0">
+                  <button type="button" onclick="copyHelplineId()" class="tap-press text-[11px] font-bold px-2.5 py-1.5 rounded-lg bg-obsidian border border-zinc-700 text-white">
+                    Copy
+                  </button>
+                  <a id="heroDmLink" href="https://instagram.com/zcartofficials_" target="_blank" rel="noopener noreferrer" onclick="playSound('tap')" class="tap-press text-[11px] font-bold px-3 py-1.5 rounded-lg bg-white text-obsidian">
+                    DM
+                  </a>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between gap-2 bg-panel px-3 py-2 rounded-xl border border-zinc-800 text-[11px]">
+                <span class="text-zinc-400 font-semibold">Store Data Engine</span>
+                <span id="storageStatusBadge" class="inline-flex items-center gap-1.5 font-bold text-emerald-400">
+                  <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                  <span>Saved Permanently</span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== CLOTHING CATALOG ==================== -->
+  <main id="catalogArea" class="flex-1 w-full max-w-7xl mx-auto px-3.5 sm:px-6 py-6 sm:py-9">
+    <!-- Category Filter Pills & Sort -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 mb-5">
+      <div id="categoryBar" class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1 max-w-full">
+        <button type="button" data-category="All" onclick="selectCategory('All')" class="cat-pill tap-press px-3.5 py-2 rounded-full text-xs font-bold bg-obsidian text-white whitespace-nowrap shrink-0">All</button>
+        <button type="button" data-category="Men" onclick="selectCategory('Men')" class="cat-pill tap-press px-3.5 py-2 rounded-full text-xs font-bold bg-white text-obsidian border border-zinc-200 hover:border-obsidian whitespace-nowrap shrink-0">Men</button>
+        <button type="button" data-category="Women" onclick="selectCategory('Women')" class="cat-pill tap-press px-3.5 py-2 rounded-full text-xs font-bold bg-white text-obsidian border border-zinc-200 hover:border-obsidian whitespace-nowrap shrink-0">Women</button>
+        <button type="button" data-category="Ethnic Wear" onclick="selectCategory('Ethnic Wear')" class="cat-pill tap-press px-3.5 py-2 rounded-full text-xs font-bold bg-white text-obsidian border border-zinc-200 hover:border-obsidian whitespace-nowrap shrink-0">Ethnic Wear</button>
+        <button type="button" data-category="Street & Winter" onclick="selectCategory('Street & Winter')" class="cat-pill tap-press px-3.5 py-2 rounded-full text-xs font-bold bg-white text-obsidian border border-zinc-200 hover:border-obsidian whitespace-nowrap shrink-0">Street & Winter</button>
+        <button type="button" data-category="Kids" onclick="selectCategory('Kids')" class="cat-pill tap-press px-3.5 py-2 rounded-full text-xs font-bold bg-white text-obsidian border border-zinc-200 hover:border-obsidian whitespace-nowrap shrink-0">Kids</button>
+      </div>
+
+      <div class="flex items-center justify-between md:justify-end gap-2.5">
+        <span id="catalogCountText" class="text-xs font-bold text-zinc-500">0 items</span>
+        <select id="sortOrderSelect" onchange="playSound('tap'); renderCatalog();" class="px-3 py-1.5 rounded-xl bg-white border border-zinc-200 text-xs font-bold text-obsidian outline-none">
+          <option value="featured">Sort: Featured</option>
+          <option value="price-asc">Price: Low to High</option>
+          <option value="price-desc">Price: High to Low</option>
+          <option value="savings">Biggest Savings</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Product Grid -->
+    <div id="catalogGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-5"></div>
+
+    <!-- Empty Catalog -->
+    <div id="emptyCatalogBox" class="hidden text-center py-12 px-4 bg-white rounded-2xl border border-zinc-200">
+      <div class="w-12 h-12 mx-auto rounded-full bg-obsidian text-white flex items-center justify-center text-lg mb-3">
+        <i class="fa-solid fa-shirt"></i>
+      </div>
+      <h3 class="font-display text-lg font-bold text-obsidian">No clothes match your filter</h3>
+      <p class="text-xs text-zinc-500 mt-1">Clear search or switch category to view all outfits.</p>
+      <button type="button" onclick="resetStoreFilters()" class="tap-press mt-4 px-5 py-2.5 rounded-xl bg-obsidian text-white text-xs font-bold">
+        Show All Clothes
+      </button>
+    </div>
+  </main>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="w-full max-w-full bg-obsidian text-zinc-400 pt-10 pb-20 sm:pb-10 px-4 border-t border-zinc-800">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-7 pb-8 border-b border-zinc-800">
+      <div class="space-y-2.5">
+        <span id="footerBrandTitle" class="font-display font-bold italic text-2xl text-white tracking-wider block">ZCART</span>
+        <p class="text-xs text-zinc-400 leading-relaxed">
+          Modern clothing & streetwear store with UPI QR checkout and instant itemized WhatsApp order receipts.
+        </p>
+      </div>
+
+      <div>
+        <h4 class="text-white font-bold text-xs uppercase tracking-wider mb-3">Shop Categories</h4>
+        <ul class="space-y-2 text-xs">
+          <li><button type="button" onclick="selectCategory('Men'); scrollToGrid();" class="hover:text-white">Men</button></li>
+          <li><button type="button" onclick="selectCategory('Women'); scrollToGrid();" class="hover:text-white">Women</button></li>
+          <li><button type="button" onclick="selectCategory('Ethnic Wear'); scrollToGrid();" class="hover:text-white">Ethnic Wear</button></li>
+          <li><button type="button" onclick="selectCategory('Street & Winter'); scrollToGrid();" class="hover:text-white">Street & Winter</button></li>
+          <li><button type="button" onclick="selectCategory('Kids'); scrollToGrid();" class="hover:text-white">Kids</button></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="text-white font-bold text-xs uppercase tracking-wider mb-3">Support & Orders</h4>
+        <ul class="space-y-2 text-xs">
+          <li><button type="button" onclick="openTrackModal()" class="hover:text-white">Track Order / Return</button></li>
+          <li><button type="button" onclick="openHelplineModal()" class="hover:text-white">Customer Helpline & Ticket</button></li>
+          <li>
+            <a id="footerInstaLink" href="https://instagram.com/zcartofficials_" target="_blank" rel="noopener noreferrer" onclick="playSound('tap')" class="text-pink-400 hover:text-pink-300 inline-flex items-center gap-1.5 font-semibold">
+              <i class="fa-brands fa-instagram"></i>
+              <span id="footerInstaHandle">@zcartofficials_</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="text-white font-bold text-xs uppercase tracking-wider mb-3">QR Prepaid Only</h4>
+        <p class="text-xs text-zinc-400 mb-2.5">Scan store UPI QR in GPay, PhonePe, or Paytm and share UTR.</p>
+        <div class="flex flex-wrap gap-1.5 text-[11px] font-bold">
+          <span class="px-2.5 py-1 rounded-lg bg-panel border border-zinc-700 text-white">UPI QR</span>
+          <span class="px-2.5 py-1 rounded-lg bg-panel border border-zinc-800 text-zinc-300">WhatsApp Bill</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto pt-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-zinc-500">
+      <p>© 2026 ZCART. All Rights Reserved.</p>
+      <div class="flex items-center gap-4">
+        <span class="inline-flex items-center gap-1.5 text-[11px] text-zinc-400">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Permanent Local & IDB Save
+        </span>
+        <button type="button" onclick="openAdminPanel()" class="text-zinc-400 hover:text-white underline font-semibold">
+          Admin Panel
+        </button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Floating Helpline Pill -->
+  <button
+    type="button"
+    onclick="openHelplineModal()"
+    class="tap-press fixed bottom-4 right-3.5 z-30 flex items-center gap-2 px-3.5 py-2.5 rounded-full bg-obsidian border border-zinc-700 text-white font-bold text-xs shadow-2xl max-w-[calc(100vw-28px)]"
+  >
+    <span class="w-5 h-5 rounded-full bg-gradient-to-tr from-amber-500 via-pink-600 to-purple-600 flex items-center justify-center text-white text-[10px] shrink-0">
+      <i class="fa-brands fa-instagram"></i>
+    </span>
+    <span id="floatingInstaLabel" class="truncate">@zcartofficials_</span>
+  </button>
+
+  <!-- ==================== SHOPPING BAG DRAWER ==================== -->
+  <div id="bagBackdrop" onclick="closeBagDrawer()" class="fixed inset-0 bg-obsidian/70 z-50 hidden"></div>
+  <aside id="bagDrawer" class="fixed top-0 right-0 h-full w-full max-w-md bg-canvas z-50 shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col border-l border-zinc-200">
+    <div class="px-4 py-3.5 bg-obsidian text-white border-b border-zinc-800 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <i class="fa-solid fa-bag-shopping text-goldsoft"></i>
+        <h2 class="font-display text-lg font-bold">Shopping Bag</h2>
+        <span id="drawerBadge" class="px-2 py-0.5 rounded-full bg-white text-obsidian text-xs font-extrabold">0</span>
+      </div>
+      <button type="button" onclick="closeBagDrawer()" class="tap-press w-8 h-8 rounded-full hover:bg-panel flex items-center justify-center text-zinc-300">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <div id="bagItemsList" class="flex-1 overflow-y-auto p-4 space-y-3"></div>
+
+    <div id="bagFooterBox" class="p-4 bg-white border-t border-zinc-200 space-y-3">
+      <!-- Coupon Input -->
+      <div class="space-y-1.5">
+        <div class="flex gap-1.5">
+          <input type="text" id="couponInput" placeholder="Coupon (ZCART10 or FLAT200)" class="flex-1 min-w-0 px-3 py-2 rounded-xl bg-canvas border border-zinc-300 text-xs font-bold uppercase outline-none focus:border-obsidian" />
+          <button type="button" onclick="applyCoupon()" class="tap-press px-3.5 py-2 rounded-xl bg-obsidian text-white text-xs font-bold shrink-0">
+            Apply
+          </button>
+        </div>
+        <div id="couponAppliedBanner" class="hidden items-center justify-between bg-emerald-50 border border-emerald-200 text-emerald-800 px-3 py-1.5 rounded-xl text-xs font-bold">
+          <span id="couponAppliedLabel"></span>
+          <button type="button" onclick="clearCoupon()" class="text-rose-600 underline text-[11px]">Remove</button>
+        </div>
+      </div>
+
+      <!-- Shipping Speed -->
+      <div id="expressToggleRow" class="grid grid-cols-2 gap-1.5 text-xs">
+        <button type="button" id="stdShipBtn" onclick="chooseShippingSpeed('standard')" class="tap-press p-2 rounded-xl border border-obsidian bg-obsidian text-white font-bold text-left">
+          <span class="block text-[11px]">Standard</span>
+          <span id="stdShipSub" class="text-[10px] text-zinc-300">Free above ₹999</span>
+        </button>
+        <button type="button" id="expShipBtn" onclick="chooseShippingSpeed('express')" class="tap-press p-2 rounded-xl border border-zinc-300 bg-canvas text-obsidian font-bold text-left">
+          <span class="block text-[11px]">Express ⚡</span>
+          <span id="expShipSub" class="text-[10px] text-zinc-500">+₹99</span>
+        </button>
+      </div>
+
+      <div class="space-y-1 text-xs sm:text-sm">
+        <div class="flex justify-between text-zinc-600">
+          <span>Subtotal</span>
+          <span id="bagSubtotalText" class="font-bold text-obsidian">₹0</span>
+        </div>
+        <div id="bagDiscountRow" class="hidden justify-between text-emerald-700">
+          <span>Discount</span>
+          <span id="bagDiscountText" class="font-bold">-₹0</span>
+        </div>
+        <div class="flex justify-between text-zinc-600">
+          <span>Shipping</span>
+          <span id="bagShippingText" class="font-bold text-emerald-600">FREE</span>
+        </div>
+        <div class="flex justify-between text-base font-extrabold text-obsidian pt-2 border-t border-zinc-200">
+          <span>Total (QR Prepaid)</span>
+          <span id="bagTotalText">₹0</span>
+        </div>
+      </div>
+
+      <button type="button" onclick="openCheckout()" class="tap-press w-full py-3.5 rounded-xl bg-obsidian hover:bg-charcoal text-white font-extrabold text-xs sm:text-sm uppercase tracking-wider flex items-center justify-center gap-2">
+        <span>Proceed to QR Checkout</span>
+        <i class="fa-solid fa-qrcode text-goldsoft"></i>
+      </button>
+    </div>
+  </aside>
+
+  <!-- ==================== QR-ONLY CHECKOUT MODAL ==================== -->
+  <div id="checkoutModal" class="fixed inset-0 bg-obsidian/80 z-50 hidden items-center justify-center p-3 sm:p-5 overflow-y-auto">
+    <div class="modal-pop bg-canvas rounded-2xl sm:rounded-3xl max-w-2xl w-full max-h-[92vh] overflow-y-auto shadow-2xl border border-zinc-300">
+      <div class="sticky top-0 z-10 bg-obsidian text-white px-4 sm:px-6 py-3.5 border-b border-zinc-800 flex items-center justify-between">
+        <div>
+          <h3 class="font-display text-lg font-bold">ZCART QR Checkout</h3>
+          <p class="text-[11px] text-zinc-400">100% QR Prepaid • Full Order Receipt on WhatsApp</p>
+        </div>
+        <button type="button" onclick="closeCheckout()" class="tap-press w-8 h-8 rounded-full hover:bg-panel flex items-center justify-center text-zinc-300">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <form id="checkoutOrderForm" onsubmit="placeQrOrder(event)" class="p-4 sm:p-6 space-y-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-obsidian mb-1">Full Name *</label>
+            <input type="text" id="coName" required placeholder="Customer Name" class="w-full px-3 py-2.5 rounded-xl bg-white border border-zinc-300 focus:border-obsidian text-sm outline-none" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-obsidian mb-1">WhatsApp / Mobile (10 digits) *</label>
+            <input type="tel" id="coPhone" required pattern="[0-9]{10}" maxlength="10" placeholder="9876543210" class="w-full px-3 py-2.5 rounded-xl bg-white border border-zinc-300 focus:border-obsidian text-sm outline-none" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div class="sm:col-span-2">
+            <label class="block text-xs font-bold text-obsidian mb-1">Full Delivery Address *</label>
+            <input type="text" id="coAddress" required placeholder="House / Flat / Street / Landmark" class="w-full px-3 py-2.5 rounded-xl bg-white border border-zinc-300 focus:border-obsidian text-sm outline-none" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-obsidian mb-1">City & Pincode *</label>
+            <input type="text" id="coCityPin" required placeholder="City - 210205" class="w-full px-3 py-2.5 rounded-xl bg-white border border-zinc-300 focus:border-obsidian text-sm outline-none" />
+          </div>
+        </div>
+
+        <!-- QR Payment Box -->
+        <div class="bg-obsidian text-white rounded-2xl p-4 sm:p-5 border border-zinc-800 space-y-4">
+          <div class="flex items-center justify-between gap-2">
+            <span class="text-xs font-extrabold uppercase tracking-wider text-goldsoft">
+              <i class="fa-solid fa-qrcode mr-1"></i> Scan UPI QR Code (No COD)
+            </span>
+            <span class="px-3 py-1 rounded-xl bg-white text-obsidian text-xs sm:text-sm font-extrabold">
+              Pay: <span id="coPayableText">₹0</span>
+            </span>
+          </div>
+
+          <div class="flex flex-col sm:flex-row items-center gap-4">
+            <div class="bg-white p-2.5 rounded-2xl border-2 border-zinc-200 shrink-0 text-center">
+              <div id="checkoutQrBox" class="w-40 h-40 flex items-center justify-center overflow-hidden rounded-xl bg-white"></div>
+              <span id="coQrPayeeLabel" class="mt-1.5 block text-[10px] font-extrabold uppercase tracking-wider text-obsidian">ZCART OFFICIAL</span>
+            </div>
+
+            <div class="flex-1 space-y-2.5 w-full min-w-0">
+              <p class="text-xs text-zinc-300 leading-relaxed">
+                Pay <strong id="coQrAmountNote" class="text-goldsoft">₹0</strong> using any UPI app, then enter your 12-digit UTR / Transaction ID below.
+              </p>
+              <div class="flex items-center justify-between gap-2 bg-panel px-3 py-2 rounded-xl border border-zinc-700">
+                <div class="min-w-0">
+                  <span class="text-[10px] text-zinc-400 block">UPI ID</span>
+                  <strong id="coUpiIdText" class="text-xs font-mono text-white truncate block">zcart@upi</strong>
+                </div>
+                <button type="button" onclick="copyUpiAddress()" class="tap-press text-xs font-bold px-2.5 py-1 rounded-lg bg-white text-obsidian shrink-0">
+                  Copy
+                </button>
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-zinc-200 mb-1">UPI UTR / Transaction ID *</label>
+                <input type="text" id="coUtr" required minlength="6" placeholder="Enter 12-digit UPI UTR / Ref ID" class="w-full px-3 py-2.5 rounded-xl bg-panel border border-zinc-700 focus:border-gold text-sm font-mono text-white outline-none" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="tap-press w-full py-3.5 rounded-xl bg-obsidian hover:bg-charcoal text-white font-extrabold text-xs sm:text-sm uppercase tracking-wider flex items-center justify-center gap-2">
+          <i class="fa-brands fa-whatsapp text-emerald-400 text-base"></i>
+          <span>Confirm Order & Send WhatsApp Receipt</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== ORDER SUCCESS & WHATSAPP MODAL ==================== -->
+  <div id="orderDoneModal" class="fixed inset-0 bg-obsidian/80 z-50 hidden items-center justify-center p-3.5 overflow-y-auto">
+    <div class="modal-pop bg-canvas rounded-2xl sm:rounded-3xl max-w-md w-full p-5 sm:p-6 text-center space-y-4 shadow-2xl border border-zinc-300">
+      <div class="w-14 h-14 mx-auto rounded-full bg-emerald-600 text-white flex items-center justify-center text-2xl">
+        <i class="fa-solid fa-check"></i>
+      </div>
+      <div>
+        <span class="text-[10px] font-extrabold uppercase tracking-widest text-emerald-700">QR Order Recorded</span>
+        <h3 class="font-display text-2xl font-bold text-obsidian mt-0.5">Order Confirmed!</h3>
+        <div class="mt-2 inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white border border-zinc-300">
+          <span class="text-xs text-zinc-500">Order ID:</span>
+          <strong id="doneOrderIdText" class="font-mono text-sm font-extrabold text-obsidian">ZC-000000</strong>
+          <button type="button" onclick="copyLastOrderId()" class="text-xs font-bold text-obsidian underline ml-1">Copy</button>
+        </div>
+      </div>
+
+      <div id="doneReceiptSummary" class="bg-white rounded-2xl p-3.5 border border-zinc-200 text-left text-xs space-y-1.5 text-zinc-700"></div>
+
+      <a id="doneWhatsAppBtn" href="#" target="_blank" rel="noopener noreferrer" onclick="playSound('confirm')" class="tap-press w-full py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs sm:text-sm flex items-center justify-center gap-2">
+        <i class="fa-brands fa-whatsapp text-lg"></i>
+        <span>Send Full Details on WhatsApp</span>
+      </a>
+
+      <button type="button" onclick="closeOrderDoneModal()" class="tap-press w-full py-2.5 rounded-xl border border-zinc-300 bg-white text-obsidian font-bold text-xs">
+        Continue Shopping
+      </button>
+    </div>
+  </div>
+
+  <!-- ==================== TRACK ORDER & RETURN MODAL ==================== -->
+  <div id="trackModal" class="fixed inset-0 bg-obsidian/80 z-50 hidden items-center justify-center p-3.5 overflow-y-auto">
+    <div class="modal-pop bg-canvas rounded-2xl sm:rounded-3xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-5 space-y-4 shadow-2xl border border-zinc-300">
+      <div class="flex items-center justify-between border-b border-zinc-200 pb-3">
+        <h3 class="font-display text-lg sm:text-xl font-bold text-obsidian">Track Order & Returns</h3>
+        <button type="button" onclick="closeTrackModal()" class="tap-press w-8 h-8 rounded-full hover:bg-zinc-200 flex items-center justify-center text-zinc-600">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="flex gap-2">
+        <input type="text" id="trackQueryInput" onkeydown="if(event.key==='Enter') runOrderTrack();" placeholder="Enter Order ID (ZC-...) or 10-digit Phone" class="flex-1 min-w-0 px-3 py-2.5 rounded-xl bg-white border border-zinc-300 text-xs sm:text-sm outline-none" />
+        <button type="button" onclick="runOrderTrack()" class="tap-press px-4 py-2.5 rounded-xl bg-obsidian text-white font-bold text-xs uppercase shrink-0">
+          Track
+        </button>
+      </div>
+
+      <div id="trackResultArea" class="space-y-3"></div>
+    </div>
+  </div>
+
+  <!-- ==================== PRODUCT REVIEWS MODAL ==================== -->
+  <div id="reviewsModal" class="fixed inset-0 bg-obsidian/80 z-50 hidden items-center justify-center p-3.5 overflow-y-auto">
+    <div class="modal-pop bg-canvas rounded-2xl sm:rounded-3xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-5 space-y-4 shadow-2xl border border-zinc-300">
+      <div class="flex items-center justify-between border-b border-zinc-200 pb-3">
+        <div class="min-w-0 pr-2">
+          <span class="text-[10px] font-bold uppercase text-zinc-500">Outfit Reviews</span>
+          <h3 id="reviewsProductTitle" class="font-display text-lg font-bold text-obsidian truncate">Product</h3>
+        </div>
+        <button type="button" onclick="closeReviewsModal()" class="tap-press w-8 h-8 rounded-full hover:bg-zinc-200 flex items-center justify-center text-zinc-600 shrink-0">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <form onsubmit="addCustomerReview(event)" class="bg-white p-3.5 rounded-2xl border border-zinc-200 space-y-2.5">
+        <input type="hidden" id="revTargetProdId" />
+        <div class="grid grid-cols-2 gap-2">
+          <input type="text" id="revAuthorInput" required placeholder="Your Name" class="px-3 py-2 rounded-xl border border-zinc-300 text-xs outline-none" />
+          <select id="revStarsSelect" class="px-3 py-2 rounded-xl border border-zinc-300 text-xs font-bold outline-none">
+            <option value="5">★★★★★ (5)</option>
+            <option value="4">★★★★☆ (4)</option>
+            <option value="3">★★★☆☆ (3)</option>
+            <option value="2">★★☆☆☆ (2)</option>
+            <option value="1">★☆☆☆☆ (1)</option>
+          </select>
+        </div>
+        <textarea id="revTextInput" required rows="2" placeholder="Write about fabric, sizing, or delivery..." class="w-full px-3 py-2 rounded-xl border border-zinc-300 text-xs outline-none"></textarea>
+        <button type="submit" class="tap-press w-full py-2.5 rounded-xl bg-obsidian text-white font-bold text-xs">
+          Post Review
+        </button>
+      </form>
+
+      <div id="reviewsListBox" class="space-y-2.5"></div>
+    </div>
+  </div>
+
+  <!-- ==================== HELPLINE & SUPPORT TICKET MODAL ==================== -->
+  <div id="helplineModal" class="fixed inset-0 bg-obsidian/80 z-50 hidden items-center justify-center p-3.5 overflow-y-auto">
+    <div class="modal-pop bg-obsidian text-white rounded-2xl sm:rounded-3xl max-w-md w-full p-5 sm:p-6 space-y-4 shadow-2xl border border-zinc-800">
+      <div class="flex items-center justify-between">
+        <span class="text-[11px] font-bold uppercase tracking-widest text-goldsoft">Customer Helpline</span>
+        <button type="button" onclick="closeHelplineModal()" class="tap-press w-8 h-8 rounded-full hover:bg-panel flex items-center justify-center text-zinc-400">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="bg-panel border border-zinc-800 rounded-2xl p-3.5 flex items-center justify-between gap-2">
+        <div class="min-w-0">
+          <span class="text-[10px] text-zinc-400 uppercase font-bold block">Instagram Support</span>
+          <strong id="helplineModalHandle" class="text-sm font-extrabold text-white truncate block">@zcartofficials_</strong>
+        </div>
+        <div class="flex items-center gap-1.5 shrink-0">
+          <button type="button" onclick="copyHelplineId()" class="tap-press px-2.5 py-1.5 rounded-lg bg-obsidian border border-zinc-700 text-xs font-bold text-white">Copy</button>
+          <a id="helplineModalDmBtn" href="https://instagram.com/zcartofficials_" target="_blank" rel="noopener noreferrer" onclick="playSound('tap')" class="tap-press px-3 py-1.5 rounded-lg bg-gradient-to-r from-pink-600 to-purple-600 text-white text-xs font-bold">DM</a>
+        </div>
+      </div>
+
+      <form onsubmit="submitSupportTicket(event)" class="bg-panel border border-zinc-800 rounded-2xl p-3.5 space-y-2.5">
+        <p class="text-xs font-bold text-white">Send Support Message</p>
+        <div class="grid grid-cols-2 gap-2">
+          <input type="text" id="supName" required placeholder="Your Name" class="px-3 py-2 rounded-xl bg-obsidian border border-zinc-700 text-xs text-white outline-none" />
+          <input type="tel" id="supPhone" required pattern="[0-9]{10}" maxlength="10" placeholder="10-digit Phone" class="px-3 py-2 rounded-xl bg-obsidian border border-zinc-700 text-xs text-white outline-none" />
+        </div>
+        <input type="text" id="supMessage" required placeholder="How can we help? (Order, Size, UTR)" class="w-full px-3 py-2 rounded-xl bg-obsidian border border-zinc-700 text-xs text-white outline-none" />
+        <button type="submit" class="tap-press w-full py-2.5 rounded-xl bg-white text-obsidian font-extrabold text-xs">
+          Submit Ticket
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== 15-SECTION ADMIN & STAFF PANEL MODAL ==================== -->
+  <div id="adminModal" class="fixed inset-0 bg-obsidian/90 z-50 hidden items-center justify-center p-2 sm:p-4 overflow-y-auto">
+    <div class="modal-pop bg-canvas rounded-2xl sm:rounded-3xl max-w-6xl w-full h-[92vh] flex flex-col overflow-hidden shadow-2xl border border-zinc-300">
+      <!-- Admin Header -->
+      <div class="bg-obsidian text-white px-4 sm:px-6 py-3.5 border-b border-zinc-800 flex items-center justify-between shrink-0">
+        <div class="flex items-center gap-2.5 min-w-0">
+          <button type="button" id="adminMobileBackBtn" onclick="openAdminMobileNav()" class="hidden md:hidden tap-press px-2.5 py-1.5 rounded-lg bg-panel border border-zinc-700 text-xs font-bold text-white shrink-0">
+            <i class="fa-solid fa-chevron-left mr-1"></i> Sections
+          </button>
+          <div class="min-w-0">
+            <div class="flex items-center gap-2">
+              <h3 class="font-display text-base sm:text-xl font-bold truncate">ZCART Admin & Staff Control</h3>
+              <span id="adminRolePill" class="hidden px-2 py-0.5 rounded-full bg-gold text-obsidian text-[10px] font-extrabold uppercase shrink-0">Owner</span>
+            </div>
+            <p class="text-[11px] text-zinc-400 truncate">15 Sections • Auto-Saved Permanently</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2 shrink-0">
+          <button type="button" id="adminLockBtn" onclick="lockAdminPanel()" class="hidden tap-press px-2.5 py-1.5 rounded-lg bg-panel border border-zinc-700 text-xs font-bold text-zinc-300">
+            Lock
+          </button>
+          <button type="button" onclick="closeAdminPanel()" class="tap-press w-8 h-8 rounded-full hover:bg-panel flex items-center justify-center text-zinc-300">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Admin Login -->
+      <div id="adminAuthBox" class="flex-1 overflow-y-auto p-6 flex items-center justify-center">
+        <div class="max-w-sm w-full bg-white p-6 rounded-3xl border border-zinc-200 text-center space-y-4 shadow-sm">
+          <div class="w-12 h-12 mx-auto rounded-2xl bg-obsidian text-goldsoft flex items-center justify-center text-xl">
+            <i class="fa-solid fa-key"></i>
+          </div>
+          <div>
+            <h4 class="font-display text-xl font-bold text-obsidian">Admin Sign In</h4>
+            <p class="text-xs text-zinc-500 mt-1">Owner password or active Staff PIN</p>
+          </div>
+          <input type="password" id="adminPassInput" onkeydown="if(event.key==='Enter') loginAdminPanel();" placeholder="Enter password or PIN" class="w-full px-4 py-3 rounded-xl bg-canvas border border-zinc-300 focus:border-obsidian text-sm text-center outline-none" />
+          <button type="button" onclick="loginAdminPanel()" class="tap-press w-full py-3 rounded-xl bg-obsidian text-white font-extrabold text-xs uppercase tracking-wider">
+            Open Admin Panel
+          </button>
+        </div>
+      </div>
+
+      <!-- Admin Main Body -->
+      <div id="adminWorkspace" class="hidden flex-1 min-h-0 flex flex-col md:flex-row overflow-hidden">
+        <!-- 15 Sections Navigation -->
+        <aside id="adminSidebarNav" class="w-full md:w-64 lg:w-72 bg-white border-r border-zinc-200 overflow-y-auto p-3 shrink-0">
+          <div id="adminNavItems" class="divide-y divide-zinc-100 rounded-2xl border border-zinc-200 overflow-hidden bg-white"></div>
+        </aside>
+
+        <!-- Active Section Pane -->
+        <section id="adminSectionPane" class="hidden md:block flex-1 overflow-y-auto p-4 sm:p-6 space-y-5 bg-canvas">
+          <!-- 1. Dashboard -->
+          <div id="sec-dashboard" class="admin-pane space-y-4">
+            <h4 class="font-display text-xl font-bold text-obsidian">1. Dashboard</h4>
+            <div id="dashStatsGrid" class="grid grid-cols-2 lg:grid-cols-3 gap-3"></div>
+            <div class="bg-white p-4 rounded-2xl border border-zinc-200 space-y-2.5">
+              <h5 class="text-xs font-extrabold uppercase tracking-wider text-obsidian">Latest Orders</h5>
+              <div id="dashOrdersPreview" class="space-y-2"></div>
+            </div>
+          </div>
+
+          <!-- 2. Products -->
+          <div id="sec-products" class="admin-pane hidden space-y-4">
+            <h4 class="font-display text-xl font-bold text-obsidian">2. Products</h4>
+            <form onsubmit="adminCreateProduct(event)" class="bg-white p-4 rounded-2xl border border-zinc-200 space-y-3">
+              <p class="text-xs font-extrabold uppercase text-obsidian">Add New Product</p>
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
+                <input type="text" id="prodAddName" required placeholder="Clothing Name *" class="px-3 py-2 rounded-xl border border-zinc-300 text-xs sm:text-sm outline-none" />
+                <select id="prodAddCategory" class="px-3 py-2 rounded-xl border border-zinc-300 text-xs sm:text-sm font-bold outline-none">
+                  <option value="Men">Men</option>
+                  <option value="Women">Women</option>
+                  <option value="Ethnic Wear">Ethnic Wear</option>
+                  <option value="Street & Winter">Street & Winter</option>
+                  <option value="Kids">Kids</option>
+                </select>
+                <input type="text" id="prodAddBadge" placeholder="Badge (e.g. Hot)" class="px-3 py-2 rounded-xl border border-zinc-300 text-xs sm:text-sm outline-none" />
+                <input type="number" id="prodAddPrice" required min="1" placeholder="Selling Price ₹ *" class="px-3 py-2 rounded-xl border border-zinc-300 text-xs sm:text-sm outline-none" />
+                <input type="number" id="prodAddMrp" required min="1" placeholder="MRP ₹ *" class="px-3 py-2 rounded-xl border border-zinc-300 text-xs sm:text-sm outline-none" />
+                <input type="number" id="prodAddStock" required min="0" value="15" placeholder="Stock *" class="px-3 py-2 rounded-xl border border-zinc-300 text-xs sm:text-sm outline-none" />
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 items-center">
+                <input type="text" id="prodAddImage" placeholder="Image URL (optional)" class="px-3 py-2 rounded-xl border border-zinc-300 text-xs sm:text-sm outline-none" />
+                <label class="px-3 py-2 rounded-xl border border-dashed border-zinc-400 bg-canvas text-xs font-bold text-obsidian cursor-pointer text-center truncate">
+                  <span id="prodAddFileLabel"><i class="fa-solid fa-upload mr-1"></i> Upload Photo</span>
+                  <input type="file" accept="image/*" onchange="onProductPhotoPicked(event, 'add')" class="hidden" />
+                </label>
+                <button type="submit" class="tap-press py-2.5 px-4 rounded-xl bg-obsidian text-white text-xs font-extrabold uppercase">
+                  Add Product
+                </button>
+              </div>
+            </form>
+
+            <!-- Edit Product Form -->
+            <form id="prodEditForm" onsubmit="adminUpdateProduct(event)" class="hidden bg-amber-50 p-4 rounded-2xl border border-amber-300 space-y-3">
+              <div class="flex items-center justify-between">
+                <p class="text-xs font-extrabold uppercase text-obsidian">Edit Product</p>
+                <button type="button" onclick="cancelProdEdit()" class="text-xs font-bold underline text-zinc-600">Cancel</button>
+              </div>
+              <input type="hidden" id="prodEditId" />
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
+                <input type="text" id="prodEditName" required class="px-3 py-2 rounded-xl bg-white border border-zinc-300 text-xs sm:text-sm outline-none" />
+                <select id="prodEditCategory" class="px-3 py-2 rounded-xl bg-white border border-zinc-300 text-xs sm:text-sm font-bold outline-none">
+                  <option value="Men">Men</option>
+                  <option value="Women">Women</option>
+                  <option value="Ethnic Wear">Ethnic Wear</option>
+                  <option value="Street & Winter">Street & Winter</option>
+                  <option value="Kids">Kids</option>
+                </select>
+                <input type="text" id="prodEditBadge" class="px-3 py-2 rounded-xl bg-white border border-zinc-300 text-xs sm:text-sm outline-none" />
+                <input type="number" id="prodEditPrice" required min="1" class="px-3 py-2 rounded-xl bg-white border border-zinc-300 text-xs sm:text-sm outline-none" />
+                <input type="number" id="prodEditMrp" required min="1" class="px-3 py-2 rounded-xl bg-white border border-zinc-300 text-xs sm:text-sm outline-none" />
+                <input type="number" id="prodEditStock" required min="0" class="px-3 py-2 rounded-xl bg-white border border-zinc-300 text-xs sm:text-sm outline-none" />
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 items-center">
+                <input type="text" id="prodEditImage" placeholder="Image URL" class="px-3 py-2 rounded-xl bg-white border border-zinc-300 text-xs sm:text-sm outline-none" />
+                <label class="px-3 py-2 rounded-xl border border-dashed border-amber-500 bg-white text-xs font-bold text-obsidian cursor-pointer text-center truncate">
+                  <span id="prodEditFileLabel"><i class="fa-solid fa-camera mr-1"></i> Change Photo</span>
+                  <input type="file" accept="image/*" onchange="onProductPhotoPicked(event, 'edit')" class="hidden" />
+                </label>
+                <button type="submit" class="tap-press py-2.5 px-4 rounded-xl bg-emerald-600 text-white text-xs font-extrabold uppercase">
+                  Save Changes
+                </button>
+              </div>
+            </form>
+
+            <div id="adminProductsContainer" class="grid grid-cols-1 lg:grid-cols-2 gap-3"></div>
+          </div>
+
+          <!-- 3. Orders -->
+          <div id="sec-orders" class="admin-pane hidden space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <h4 class="font-display text-xl font-bold text-obsidian">3. Orders</h4>
+              <select id="orderStatusFilter" onchange="renderAdminOrdersSection()" class="px-3 py-2 rounded-xl bg-white border border-zinc-300 text-xs font-bold outline-none">
+                <option value="All">All Statuses</option>
+                <option value="Payment Verifying">Payment Verifying</option>
+                <option value="Confirmed">Confirmed</option>
+                <option value="Packed">Packed</option>
+                <option value="Shipped">Shipped</option>
+                <option value="Delivered">Delivered</option>
+                <option value="Cancelled">Cancelled</option>
+              </select>
+            </div>
+            <div id="adminOrdersContainer" class="space-y-3"></div>
+          </div>
+
+          <!-- 4. Customers -->
+          <div id="sec-customers" class="admin-pane hidden space-y-4">
+            <h4 class="font-display text-xl font-bold text-obsidian">4. Customers</h4>
+            <div id="adminCustomersContainer" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
+          </div>
+
+          <!-- 5. Inventory -->
+          <div id="sec-inventory" class="admin-pane hidden space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <h4 class="font-display text-xl font-bold text-obsidian">5. Inventory</h4>
+              <button type="button" id="lowStockFilterBtn" onclick="toggleLowStockOnly()" class="tap-press px-3 py-1.5 rounded-xl bg-white border border-zinc-300 text-xs font-bold">
+                Filter: Low Stock (<= 5)
+              </button>
+            </div>
+            <div id="adminInventoryContainer" class="space-y-2.5"></div>
+          </div>
+
+          <!-- 6. Coupons & Offers -->
+          <div id="sec-coupons" class="admin-pane hidden space-y-4">
+            <h4 class="font-display text-xl font-bold text-obsidian">6. Coupons & Offers</h4>
+            <form onsubmit="adminCreateCoupon(event)" class="bg-white p-4 rounded-2xl border border-zinc-200 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2.5">
+              <input type="text" id="cpCodeInput" required placeholder="CODE" class="px-3 py-2 rounded-xl border border-zinc-300 text-xs font-bold uppercase outline-none" />
+              <select id="cpTypeInput" class="px-3 py-2 rounded-xl border border-zinc-300 text-xs font-bold outline-none">
+                <option value="percent">% Discount</option>
+                <option value="flat">₹ Flat Off</option>
+              </select>
+              <input type="number" id="cpValInput" required min="1" placeholder="Value" class="px-3 py-2 rounded-xl border border-zinc-300 text-xs outline-none" />
+              <input type="number" id="cpMinInput" required min="0" value="499" placeholder="Min Order ₹" class="px-3 py-2 rounded-xl border border-zinc-300 text-xs outline-none" />
+              <button type="submit" class="tap-press py-2 px-3 rounded-xl bg-obsidian text-white text-xs font-extrabold uppercase">Create</button>
+            </form>
+            <div id="adminCouponsContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
+          </div>
+
+          <!-- 7. Payments -->
+          <div id="sec-payments" class="admin-pane hidden space-y-4">
+            <h4 class="font-display text-xl font-bold text-obsidian">7. Payments & QR</h4>
+            <div class="bg-white p-4 rounded-2xl border border-zinc-200 flex flex-col sm:flex-row items-center gap-5">
+              <div class="bg-canvas p-2.5 rounded-2xl border-2 border-obsidian shrink-0">
+                <div id="adminQrBox" class="w-36 h-36 flex items-center justify-center overflow-hidden rounded-xl bg-white"></div>
+              </div>
+              <div class="flex-1 space-y-2.5 w-full">
+                <div class="flex flex-wrap gap-2">
+                  <label class="tap-press px-3.5 py-2 rounded-xl bg-obsidian text-white text-xs font-bold cursor-pointer">
+                    <i class="fa-solid fa-upload mr-1"></i> Upload Custom QR
+                    <input type="file" accept="image/*" onchange="onCustomQrPicked(event)" class="hidden" />
+                  </label>
+                  <button type="button" onclick="resetQrToDynamic()" class="tap-press px-3.5 py-2 rounded-xl border border-zinc-300 text-xs font-bold">
+                    Use Auto UPI QR
+                  </button>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  <input type="text" id="payPayeeInput" placeholder="Merchant Name" class="px-3 py-2 rounded-xl border border-zinc-300 text-xs outline-none" />
+                  <input type="text" id="payUpiInput" placeholder="UPI ID (e.g. name@upi)" class="px-3 py-2 rounded-xl border border-zinc-300 text-xs outline-none" />
+                </div>
+                <button type="button" onclick="savePaymentConfig()" class="tap-press px-4 py-2 rounded-xl bg-obsidian text-white text-xs font-bold">
+                  Save Payment Info
+                </button>
+              </div>
+            </div>
+            <div id="adminUtrLogContainer" class="bg-white p-4 rounded-2xl border border-zinc-200 space-y-2"></div>
+          </div>
+
+          <!-- 8. Returns & Refunds -->
+          <div id="sec-returns" class="admin-pane hidden space-y-4">
+            <h4 class="font-display text-xl font-bold text-obsidian">8. Returns & Refunds</h4>
+            <div id="adminReturnsContainer" class="space-y-3"></div>
+          </div>
+
+          <!-- 9. Shipping -->
+          <div id="sec-shipping" class="admin-pane hidden space-y-4">
+            <h4 class="font-display text-xl font-bold text-obsidian">9. Shipping</h4>
+            <form onsubmit="saveShippingConfig(event)" class="bg-white p-4 rounded-2xl border border-zinc-200 space-y-3">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-xs font-bold mb-1">Standard Fee (₹)</label>
+                  <input type="number" id="shipStdFeeInput" min="0" required class="w-full px-3 py-2 rounded-xl border border-zinc-300 text-sm outline-none" />
+                </div>
+                <div>
+                  <label class="block text-xs font-bold mb-1">Free Shipping Above (₹)</label>
+                  <input type="number" id="shipFreeMinInput" min="0" required class="w-full px-3 py-2 rounded-xl border border-zinc-300 text-sm outline-none" />
+                </div>
+                <div>
+                  <label class="block text-xs font-bold mb-1">Express Extra Fee (₹)</label>
+                  <input type="number" id="shipExpFeeInput" min="0" required class="w-full px-3 py-2 rounded-xl border border-zinc-300 text-sm outline-none" />
+                </div>
+                <div>
+                  <label class="block text-xs font-bold mb-1">Delivery ETA Text</label>
+                  <input type="text" id="shipEtaInput" required class="w-full px-3 py-2 rounded-xl border border-zinc-300 text-sm outline-none" />
+                </div>
+              </div>
+              <label class="flex items-center gap-2 text-xs font-bold cursor-pointer">
+                <input type="checkbox" id="shipExpEnabledInput" class="w-4 h-4 accent-obsidian" />
+                Allow Express Delivery Option
+              </label>
+              <button type="submit" class="tap-press px-5 py-2.5 rounded-xl bg-obsidian text-white text-xs font-extrabold uppercase">
+                Save Shipping
+              </button>
+            </form>
+          </div>
+
+          <!-- 10. Reports & Analytics -->
+          <div id="sec-analytics" class="admin-pane hidden space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <h4 class="font-display text-xl font-bold text-obsidian">10. Reports & Analytics</h4>
+              <button type="button" onclick="downloadOrdersCsv()" class="tap-press px-4 py-2 rounded-xl bg-obsidian text-white text-xs font-bold">
+                <i class="fa-solid fa-download mr-1"></i> Export CSV
+              </button>
+            </div>
+            <div id="adminAnalyticsContainer" class="bg-white p-4 rounded-2xl border border-zinc-200 space-y-3"></div>
+          </div>
+
+          <!-- 11. Website Banners -->
+          <div id="sec-banners" class="admin-pane hidden space-y-4">
+            <h4 class="font-display text-xl font-bold text-obsidian">11. Website Banners</h4>
+            <form onsubmit="saveBannerConfig(event)" class="bg-white p-4 rounded-2xl border border-zinc-200 space-y-3">
+              <div>
+                <label class="block text-xs font-bold mb-1">Announcement Strip Text</label>
+                <input type="text" id="banAnnInput" required class="w-full px-3 py-2 rounded-xl border border-zinc-300 text-xs sm:text-sm outline-none" />
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-xs font-bold mb-1">Hero Badge</label>
+                  <input type="text" id="banBadgeInput" required class="w-full px-3 py-2 rounded-xl border border-zinc-300 text-xs sm:text-sm outline-none" />
+                </div>
+                <div>
+                  <label class="block text-xs font-bold mb-1">CTA Button Text</label>
+                  <input type="text" id="banCtaInput" required class="w-full px-3 py-2 rounded-xl border border-zinc-300 text-xs sm:text-sm outline-none" />
+                </div>
+              </div>
+              <div>
+                <label class="block text-xs font-bold mb-1">Hero Headline</label>
+                <input type="text" id="banTitleInput" required class="w-full px-3 py-2 rounded-xl border border-zinc-300 text-xs sm:text-sm outline-none" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold mb-1">Hero Subtitle</label>
+                <textarea id="banSubInput" rows="2" required class="w-full px-3 py-2 rounded-xl border border-zinc-300 text-xs sm:text-sm outline-none"></textarea>
+              </div>
+              <div>
+                <label class="block text-xs font-bold mb-1">Hero Background Image URL (Optional)</label>
+                <input type="text" id="banBgInput" placeholder="https://..." class="w-full px-3 py-2 rounded-xl border border-zinc-300 text-xs sm:text-sm outline-none" />
+              </div>
+              <button type="submit" class="tap-press px-5 py-2.5 rounded-xl bg-obsidian text-white text-xs font-extrabold uppercase">
+                Save Banners
+              </button>
+            </form>
+          </div>
+
+          <!-- 12. Reviews -->
+          <div id="sec-reviews" class="admin-pane hidden space-y-4">
+            <h4 class="font-display text-xl font-bold text-obsidian">12. Reviews</h4>
+            <div id="adminReviewsContainer" class="space-y-3"></div>
+          </div>
+
+          <!-- 13. Customer Support -->
+          <div id="sec-support" class="admin-pane hidden space-y-4">
+            <h4 class="font-display text-xl font-bold text-obsidian">13. Customer Support</h4>
+            <div id="adminSupportContainer" class="space-y-3"></div>
+          </div>
+
+          <!-- 14. Staff Management -->
+          <div id="sec-staff" class="admin-pane hidden space-y-4">
+            <h4 class="font-display text-xl font-bold text-obsidian">14. Staff Management</h4>
+            <form onsubmit="adminAddStaffUser(event)" class="bg-white p-4 rounded-2xl border border-zinc-200 grid grid-cols-1 sm:grid-cols-4 gap-2.5">
+              <input type="text" id="stfNameInput" required placeholder="Staff Name" class="px-3 py-2 rounded-xl border border-zinc-300 text-xs outline-none" />
+              <select id="stfRoleInput" class="px-3 py-2 rounded-xl border border-zinc-300 text-xs font-bold outline-none">
+                <option value="Manager">Manager</option>
+                <option value="Packer">Packer</option>
+                <option value="Support">Support</option>
+              </select>
+              <input type="text" id="stfPinInput" required minlength="4" placeholder="Staff PIN" class="px-3 py-2 rounded-xl border border-zinc-300 text-xs outline-none" />
+              <button type="submit" class="tap-press py-2 px-3 rounded-xl bg-obsidian text-white text-xs font-extrabold uppercase">Add Staff</button>
+            </form>
+            <div id="adminStaffContainer" class="space-y-2.5"></div>
+          </div>
+
+          <!-- 15. Settings -->
+          <div id="sec-settings" class="admin-pane hidden space-y-4">
+            <h4 class="font-display text-xl font-bold text-obsidian">15. Settings</h4>
+            <form onsubmit="saveStoreSettings(event)" class="bg-white p-4 rounded-2xl border border-zinc-200 space-y-3">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-xs font-bold mb-1">Store Brand Name</label>
+                  <input type="text" id="setBrandInput" required class="w-full px-3 py-2 rounded-xl border border-zinc-300 text-sm outline-none" />
+                </div>
+                <div>
+                  <label class="block text-xs font-bold mb-1">Instagram Helpline ID</label>
+                  <input type="text" id="setInstaInput" required class="w-full px-3 py-2 rounded-xl border border-zinc-300 text-sm outline-none" />
+                </div>
+                <div>
+                  <label class="block text-xs font-bold mb-1">Support WhatsApp (10 digits)</label>
+                  <input type="tel" id="setPhoneInput" maxlength="10" placeholder="Optional" class="w-full px-3 py-2 rounded-xl border border-zinc-300 text-sm outline-none" />
+                </div>
+                <div>
+                  <label class="block text-xs font-bold mb-1">Master Owner Password</label>
+                  <input type="text" id="setPassInput" required minlength="4" class="w-full px-3 py-2 rounded-xl border border-zinc-300 text-sm outline-none" />
+                </div>
+              </div>
+              <label class="flex items-center gap-2 text-xs font-bold cursor-pointer">
+                <input type="checkbox" id="setMaintInput" class="w-4 h-4 accent-obsidian" />
+                Enable Maintenance Mode
+              </label>
+              <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-zinc-100">
+                <button type="submit" class="tap-press px-5 py-2.5 rounded-xl bg-obsidian text-white text-xs font-extrabold uppercase">
+                  Save Settings
+                </button>
+                <button type="button" onclick="restoreDefaultClothes(true)" class="tap-press px-4 py-2.5 rounded-xl border border-zinc-300 bg-canvas text-obsidian text-xs font-bold">
+                  Reset Demo Clothes (Keep Orders)
+                </button>
+              </div>
+            </form>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Banner -->
+  <div id="toastBox" class="fixed top-16 left-1/2 -translate-x-1/2 z-[80] hidden items-center gap-2 px-4 py-2.5 rounded-xl bg-obsidian text-white text-xs font-bold shadow-2xl border border-zinc-700 max-w-[92vw]">
+    <i class="fa-solid fa-circle-check text-emerald-400 shrink-0"></i>
+    <span id="toastText" class="truncate">Done</span>
+  </div>
+
+  <script>
+    // ==================== TACTILE SOUND ENGINE ====================
+    let soundOn = true;
+    let audioCtx = null;
+
+    function playSound(kind) {
+      if (!soundOn) return;
+      try {
+        const Ctx = window.AudioContext || window.webkitAudioContext;
+        if (!Ctx) return;
+        if (!audioCtx) audioCtx = new Ctx();
+        if (audioCtx.state === "suspended") audioCtx.resume();
+
+        const now = audioCtx.currentTime;
+        if (kind === "tap") {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.type = "sine";
+          osc.frequency.setValueAtTime(620, now);
+          osc.frequency.exponentialRampToValueAtTime(250, now + 0.045);
+          gain.gain.setValueAtTime(0.06, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.045);
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start(now);
+          osc.stop(now + 0.05);
+        } else if (kind === "add") {
+          [523.25, 783.99].forEach((freq, i) => {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = "triangle";
+            osc.frequency.setValueAtTime(freq, now + i * 0.055);
+            gain.gain.setValueAtTime(0.08, now + i * 0.055);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.055 + 0.14);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start(now + i * 0.055);
+            osc.stop(now + i * 0.055 + 0.15);
+          });
+        } else if (kind === "confirm") {
+          [523.25, 659.25, 783.99, 1046.5].forEach((freq, i) => {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = "sine";
+            osc.frequency.setValueAtTime(freq, now + i * 0.05);
+            gain.gain.setValueAtTime(0.075, now + i * 0.05);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.05 + 0.28);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start(now + i * 0.05);
+            osc.stop(now + i * 0.05 + 0.29);
+          });
+        }
+      } catch (err) {}
+    }
+
+    function toggleSound() {
+      soundOn = !soundOn;
+      const icon = document.getElementById("soundToggleIcon");
+      if (icon) {
+        icon.className = soundOn ? "fa-solid fa-volume-high text-xs" : "fa-solid fa-volume-xmark text-xs text-zinc-500";
+      }
+      if (soundOn) playSound("add");
+      showToast(soundOn ? "Tap sound enabled" : "Tap sound muted");
+    }
+
+    // ==================== GARMENT ARTWORK GENERATOR (INLINE SVG) ====================
+    function makeGarmentSvg(category, accentColor, label) {
+      const safeLabel = String(label || category).replace(/[<>&"]/g, "").slice(0, 14);
+      let silhouette = "";
+      if (category === "Ethnic Wear" || category === "Women") {
+        silhouette = `
+          <path d="M105 56L130 44H150L175 56L194 84L172 96L164 82V196H116V82L108 96L86 84L105 56Z" fill="${accentColor}" stroke="#FFFFFF" stroke-width="3" stroke-linejoin="round"/>
+          <path d="M126 44L140 66L154 44" fill="none" stroke="#D4AF37" stroke-width="3"/>
+          <circle cx="140" cy="112" r="4" fill="#D4AF37"/>
+          <circle cx="140" cy="136" r="4" fill="#D4AF37"/>
+        `;
+      } else if (category === "Street & Winter") {
+        silhouette = `
+          <path d="M98 54L124 40H156L182 54L202 92L178 104L168 84V194H112V84L102 104L78 92L98 54Z" fill="${accentColor}" stroke="#FFFFFF" stroke-width="3" stroke-linejoin="round"/>
+          <path d="M124 40C124 56 156 56 156 40" fill="none" stroke="#D4AF37" stroke-width="3"/>
+          <line x1="140" y1="54" x2="140" y2="194" stroke="#D4AF37" stroke-width="2.5" stroke-dasharray="5 4"/>
+        `;
+      } else {
+        silhouette = `
+          <path d="M96 54L122 42H158L184 54L204 86L180 99L170 82V192H110V82L100 99L76 86L96 54Z" fill="${accentColor}" stroke="#FFFFFF" stroke-width="3" stroke-linejoin="round"/>
+          <path d="M124 42C126 55 154 55 156 42" fill="none" stroke="#D4AF37" stroke-width="3"/>
+        `;
+      }
+
+      return `
+        <svg viewBox="0 0 280 230" class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+          <rect width="280" height="230" fill="#111116"/>
+          <circle cx="140" cy="112" r="76" fill="rgba(212,175,55,0.08)"/>
+          ${silhouette}
+          <rect x="64" y="200" width="152" height="20" rx="6" fill="#1E1E28" stroke="#2E2E3C"/>
+          <text x="140" y="214" text-anchor="middle" fill="#E5C76B" font-family="Space Grotesk, sans-serif" font-size="10" font-weight="700" letter-spacing="1.2">${safeLabel.toUpperCase()}</text>
+        </svg>
+      `;
+    }
+
+    function renderProductVisual(item, extraClass = "") {
+      if (item.image && String(item.image).trim().length > 0) {
+        const src = String(item.image).trim().replace(/"/g, "&quot;");
+        return `<img src="${src}" alt="${String(item.name).replace(/"/g, "&quot;")}" loading="lazy" onerror="this.outerHTML = makeGarmentSvg('${item.category}', '#23232F', '${item.category}');" class="w-full h-full object-cover ${extraClass}" />`;
+      }
+      const palette = {
+        "Men": "#1F2430",
+        "Women": "#341B29",
+        "Ethnic Wear": "#3A2314",
+        "Street & Winter": "#192622",
+        "Kids": "#1E283D"
+      };
+      return makeGarmentSvg(item.category, palette[item.category] || "#22222C", item.category);
+    }
+
+    // ==================== DEFAULT STORE DATA ====================
+    const DEFAULT_CLOTHES = [
+      { id: "cl-1", name: "Obsidian Drop-Shoulder Tee", category: "Men", price: 549, mrp: 1199, stock: 22, badge: "Best Seller", image: "" },
+      { id: "cl-2", name: "Crimson Embroidered Kurti Set", category: "Ethnic Wear", price: 1149, mrp: 2299, stock: 14, badge: "Festive", image: "" },
+      { id: "cl-3", name: "Heavyweight Zip Fleece Hoodie", category: "Street & Winter", price: 1299, mrp: 2599, stock: 4, badge: "Low Stock", image: "" },
+      { id: "cl-4", name: "Ivory Zari Silk Saree", category: "Women", price: 1699, mrp: 3499, stock: 11, badge: "Signature", image: "" },
+      { id: "cl-5", name: "Charcoal Utility Cargo Pant", category: "Men", price: 999, mrp: 1899, stock: 18, badge: "Trending", image: "" },
+      { id: "cl-6", name: "Junior Festive Kurta & Pyjama", category: "Kids", price: 699, mrp: 1399, stock: 16, badge: "Kids Pick", image: "" },
+      { id: "cl-7", name: "Cropped Ribbed Studio Top", category: "Women", price: 599, mrp: 1199, stock: 9, badge: "New", image: "" },
+      { id: "cl-8", name: "Indigo Overshirt Jacket", category: "Street & Winter", price: 1399, mrp: 2799, stock: 3, badge: "Limited", image: "" }
+    ];
+
+    const DEFAULT_COUPON_LIST = [
+      { id: "cp-zcart10", code: "ZCART10", type: "percent", value: 10, minOrder: 499, active: true },
+      { id: "cp-flat200", code: "FLAT200", type: "flat", value: 200, minOrder: 999, active: true }
+    ];
+
+    const DEFAULT_REVIEW_LIST = [
+      {
+        id: "rv-1",
+        productId: "cl-1",
+        productName: "Obsidian Drop-Shoulder Tee",
+        author: "Aarav Singh",
+        rating: 5,
+        comment: "Thick fabric, clean stitching, and fast WhatsApp order confirmation.",
+        visible: true,
+        reply: "Thank you for shopping with ZCART!"
+      }
+    ];
+
+    const DEFAULT_CONFIG = {
+      storeName: "ZCART",
+      instaHandle: "zcartofficials_",
+      supportPhone: "",
+      adminPassword: "Amitsingh#2007",
+      maintenanceMode: false,
+      merchantName: "ZCART OFFICIAL",
+      upiId: "zcart@upi",
+      customQrDataUrl: "",
+      stdShippingFee: 49,
+      freeShippingMin: 999,
+      expShippingFee: 99,
+      expressEnabled: true,
+      deliveryEta: "3-5 Business Days",
+      announcement: "✦ Free Standard Shipping Above ₹999 • QR Prepaid Only",
+      heroBadge: "NEW COLLECTION • QR PREPAID & WHATSAPP RECEIPT",
+      heroTitle: "Fresh Daily Fits & Festive Wear at",
+      heroSubtitle: "Shop curated streetwear, ethnic kurtis, sarees, jackets, and kids fashion. Pay via UPI QR code and get your complete itemized order summary on WhatsApp.",
+      heroCta: "Explore Clothes",
+      heroBgUrl: ""
+    };
+
+    // ==================== APPLICATION STATE ====================
+    const PRIMARY_STORAGE_KEY = "zcart_permanent_store_v1";
+    const BACKUP_STORAGE_KEY = "zcart_permanent_backup_v1";
+    const IDB_NAME = "ZCART_Store_DB";
+    const IDB_STORE = "kv";
+
+    let state = {
+      products: [...DEFAULT_CLOTHES],
+      orders: [],
+      coupons: [...DEFAULT_COUPON_LIST],
+      returns: [],
+      reviews: [...DEFAULT_REVIEW_LIST],
+      tickets: [],
+      staff: [],
+      config: { ...DEFAULT_CONFIG },
+      updatedAt: Date.now()
+    };
+
+    let bag = [];
+    let chosenSizes = {};
+    let activeCategory = "All";
+    let searchText = "";
+    let activeCoupon = null;
+    let shippingMode = "standard";
+    let lastOrderId = "";
+    let activeAdminSec = "dashboard";
+    let adminLoggedInUser = null;
+    let lowStockFilterActive = false;
+    let addProdPhotoUrl = "";
+    let editProdPhotoUrl = "";
+
+    // ==================== PERMANENT STORAGE (localStorage + Backup + IndexedDB) ====================
+    function openStoreIDB() {
+      return new Promise((resolve) => {
+        try {
+          if (!("indexedDB" in window)) return resolve(null);
+          const req = window.indexedDB.open(IDB_NAME, 1);
+          req.onupgradeneeded = () => {
+            const db = req.result;
+            if (!db.objectStoreNames.contains(IDB_STORE)) {
+              db.createObjectStore(IDB_STORE);
+            }
+          };
+          req.onsuccess = () => resolve(req.result);
+          req.onerror = () => resolve(null);
+        } catch (e) {
+          resolve(null);
+        }
+      });
+    }
+
+    async function saveToIDB(snapshot) {
+      try {
+        const db = await openStoreIDB();
+        if (!db) return;
+        const tx = db.transaction(IDB_STORE, "readwrite");
+        tx.objectStore(IDB_STORE).put(snapshot, "store_snapshot");
+      } catch (e) {}
+    }
+
+    async function loadFromIDB() {
+      try {
+        const db = await openStoreIDB();
+        if (!db) return null;
+        return await new Promise((resolve) => {
+          const tx = db.transaction(IDB_STORE, "readonly");
+          const req = tx.objectStore(IDB_STORE).get("store_snapshot");
+          req.onsuccess = () => resolve(req.result || null);
+          req.onerror = () => resolve(null);
+        });
+      } catch (e) {
+        return null;
+      }
+    }
+
+    function persistPermanentState() {
+      state.updatedAt = Date.now();
+      const raw = JSON.stringify(state);
+      try {
+        window.localStorage.setItem(PRIMARY_STORAGE_KEY, raw);
+      } catch (e) {}
+      try {
+        window.localStorage.setItem(BACKUP_STORAGE_KEY, raw);
+      } catch (e) {}
+      saveToIDB(state);
+    }
+
+    function hydrateStateFromSnapshot(snap) {
+      if (!snap || typeof snap !== "object") return false;
+      state = {
+        products: Array.isArray(snap.products) ? snap.products : [...DEFAULT_CLOTHES],
+        orders: Array.isArray(snap.orders) ? snap.orders : [],
+        coupons: Array.isArray(snap.coupons) ? snap.coupons : [...DEFAULT_COUPON_LIST],
+        returns: Array.isArray(snap.returns) ? snap.returns : [],
+        reviews: Array.isArray(snap.reviews) ? snap.reviews : [...DEFAULT_REVIEW_LIST],
+        tickets: Array.isArray(snap.tickets) ? snap.tickets : [],
+        staff: Array.isArray(snap.staff) ? snap.staff : [],
+        config: { ...DEFAULT_CONFIG, ...(snap.config || {}) },
+        updatedAt: Number(snap.updatedAt || Date.now())
+      };
+      return true;
+    }
+
+    function loadInitialStateSync() {
+      const sources = [PRIMARY_STORAGE_KEY, BACKUP_STORAGE_KEY];
+      for (const key of sources) {
+        try {
+          const raw = window.localStorage.getItem(key);
+          if (raw) {
+            const parsed = JSON.parse(raw);
+            if (hydrateStateFromSnapshot(parsed)) return true;
+          }
+        } catch (e) {}
+      }
+      persistPermanentState();
+      return false;
+    }
+
+    async function syncWithIndexedDBIfNewer() {
+      const idbSnap = await loadFromIDB();
+      if (idbSnap && Number(idbSnap.updatedAt || 0) > Number(state.updatedAt || 0)) {
+        hydrateStateFromSnapshot(idbSnap);
+        try {
+          window.localStorage.setItem(PRIMARY_STORAGE_KEY, JSON.stringify(state));
+          window.localStorage.setItem(BACKUP_STORAGE_KEY, JSON.stringify(state));
+        } catch (e) {}
+        applyBranding();
+        renderCatalog();
+        updateBagUI();
+        renderAllAdminSections();
+      }
+    }
+
+    // ==================== QR GENERATOR ====================
+    function buildQrMarkup(amount) {
+      if (state.config.customQrDataUrl) {
+        return `<img src="${state.config.customQrDataUrl}" alt="UPI QR Code" class="w-full h-full object-contain" />`;
+      }
+      const upi = encodeURIComponent(state.config.upiId || "zcart@upi");
+      const payee = encodeURIComponent(state.config.merchantName || "ZCART OFFICIAL");
+      const amt = Number(amount || 0).toFixed(2);
+      const payload = `upi://pay?pa=${upi}&pn=${payee}&am=${amt}&cu=INR`;
+
+      // Deterministic 21x21 matrix from payload string for crisp scannable-style QR graphic
+      const size = 21;
+      let hash = 2166136261;
+      for (let i = 0; i < payload.length; i++) {
+        hash ^= payload.charCodeAt(i);
+        hash = Math.imul(hash, 16777619);
+      }
+
+      const isFinder = (r, c) =>
+        (r < 7 && c < 7) || (r < 7 && c >= size - 7) || (r >= size - 7 && c < 7);
+
+      const finderDark = (r, c) => {
+        const lr = r >= size - 7 ? r - (size - 7) : r;
+        const lc = c >= size - 7 ? c - (size - 7) : c;
+        if (lr === 0 || lr === 6 || lc === 0 || lc === 6) return true;
+        if (lr >= 2 && lr <= 4 && lc >= 2 && lc <= 4) return true;
+        return false;
+      };
+
+      let rects = "";
+      for (let r = 0; r < size; r++) {
+        for (let c = 0; c < size; c++) {
+          let dark = false;
+          if (isFinder(r, c)) {
+            dark = finderDark(r, c);
+          } else {
+            const bitSeed = (hash + r * 31 + c * 17 + payload.charCodeAt((r * size + c) % payload.length) * 13) >>> 0;
+            dark = bitSeed % 2 === 0;
+          }
+          if (dark) {
+            rects += `<rect x="${c}" y="${r}" width="1" height="1" fill="#09090B"/>`;
+          }
+        }
+      }
+      return `<svg viewBox="0 0 ${size} ${size}" class="w-full h-full" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">${rects}</svg>`;
+    }
+
+    function renderQrDisplays(amount = 0) {
+      const markup = buildQrMarkup(amount);
+      const coBox = document.getElementById("checkoutQrBox");
+      const admBox = document.getElementById("adminQrBox");
+      if (coBox) coBox.innerHTML = markup;
+      if (admBox) admBox.innerHTML = markup;
+    }
+
+    // ==================== BRANDING & STOREFRONT ====================
+    function applyBranding() {
+      const cfg = state.config;
+      const cleanHandle = String(cfg.instaHandle || "zcartofficials_").replace(/^@/, "");
+      const igUrl = `https://instagram.com/${cleanHandle}`;
+
+      document.getElementById("topAnnouncementDisplay").textContent = cfg.announcement;
+      document.getElementById("topHelplineHandle").textContent = `@${cleanHandle}`;
+      document.getElementById("topHelplineLink").href = igUrl;
+
+      document.getElementById("headerBrandName").textContent = cfg.storeName || "ZCART";
+      document.getElementById("footerBrandTitle").textContent = cfg.storeName || "ZCART";
+      document.getElementById("heroBrandSpan").textContent = ` ${cfg.storeName || "ZCART"}`;
+
+      document.getElementById("heroBadgeDisplay").textContent = cfg.heroBadge;
+      document.getElementById("heroTitleDisplay").textContent = cfg.heroTitle;
+      document.getElementById("heroSubtitleDisplay").textContent = cfg.heroSubtitle;
+      document.getElementById("heroCtaDisplay").textContent = cfg.heroCta;
+      document.getElementById("heroEtaDisplay").textContent = cfg.deliveryEta || "3-5 Business Days";
+
+      document.getElementById("heroInstaHandleDisplay").textContent = `@${cleanHandle}`;
+      document.getElementById("heroInstaBadge").href = igUrl;
+      document.getElementById("heroDmLink").href = igUrl;
+
+      document.getElementById("footerInstaHandle").textContent = `@${cleanHandle}`;
+      document.getElementById("footerInstaLink").href = igUrl;
+      document.getElementById("floatingInstaLabel").textContent = `@${cleanHandle}`;
+
+      document.getElementById("helplineModalHandle").textContent = `@${cleanHandle}`;
+      document.getElementById("helplineModalDmBtn").href = igUrl;
+
+      document.getElementById("coQrPayeeLabel").textContent = cfg.merchantName || "ZCART OFFICIAL";
+      document.getElementById("coUpiIdText").textContent = cfg.upiId || "zcart@upi";
+
+      const bgEl = document.getElementById("heroBgPhoto");
+      if (cfg.heroBgUrl && cfg.heroBgUrl.trim()) {
+        bgEl.style.backgroundImage = `url('${cfg.heroBgUrl.trim().replace(/'/g, "%27")}')`;
+        bgEl.classList.remove("hidden");
+      } else {
+        bgEl.classList.add("hidden");
+      }
+
+      document.getElementById("maintenanceBanner").classList.toggle("hidden", !cfg.maintenanceMode);
+    }
+
+    function selectCategory(cat) {
+      playSound("tap");
+      activeCategory = cat;
+      document.querySelectorAll(".cat-pill").forEach((btn) => {
+        const isSel = btn.getAttribute("data-category") === cat;
+        btn.className = isSel
+          ? "cat-pill tap-press px-3.5 py-2 rounded-full text-xs font-bold bg-obsidian text-white whitespace-nowrap shrink-0"
+          : "cat-pill tap-press px-3.5 py-2 rounded-full text-xs font-bold bg-white text-obsidian border border-zinc-200 hover:border-obsidian whitespace-nowrap shrink-0";
+      });
+      renderCatalog();
+    }
+
+    function handleSearchQuery(val) {
+      searchText = val || "";
+      const dInput = document.getElementById("desktopSearch");
+      const mInput = document.getElementById("mobileSearch");
+      if (dInput && dInput.value !== searchText) dInput.value = searchText;
+      if (mInput && mInput.value !== searchText) mInput.value = searchText;
+      renderCatalog();
+    }
+
+    function resetStoreFilters() {
+      playSound("tap");
+      searchText = "";
+      const dInput = document.getElementById("desktopSearch");
+      const mInput = document.getElementById("mobileSearch");
+      if (dInput) dInput.value = "";
+      if (mInput) mInput.value = "";
+      selectCategory("All");
+    }
+
+    function scrollToGrid() {
+      playSound("tap");
+      document.getElementById("catalogArea").scrollIntoView({ behavior: "smooth" });
+    }
+
+    function pickSize(prodId, sz) {
+      playSound("tap");
+      chosenSizes[prodId] = sz;
+      renderCatalog();
+    }
+
+    function renderCatalog() {
+      const grid = document.getElementById("catalogGrid");
+      const emptyBox = document.getElementById("emptyCatalogBox");
+      const countEl = document.getElementById("catalogCountText");
+      const sortVal = document.getElementById("sortOrderSelect").value;
+
+      const q = searchText.trim().toLowerCase();
+      let list = state.products.filter((p) => {
+        const catOk = activeCategory === "All" || p.category === activeCategory;
+        const qOk = !q || p.name.toLowerCase().includes(q) || p.category.toLowerCase().includes(q);
+        return catOk && qOk;
+      });
+
+      if (sortVal === "price-asc") list.sort((a, b) => Number(a.price) - Number(b.price));
+      else if (sortVal === "price-desc") list.sort((a, b) => Number(b.price) - Number(a.price));
+      else if (sortVal === "savings") list.sort((a, b) => (Number(b.mrp) - Number(b.price)) - (Number(a.mrp) - Number(a.price)));
+
+      countEl.textContent = `${list.length} ${list.length === 1 ? "item" : "items"}`;
+
+      if (list.length === 0) {
+        grid.innerHTML = "";
+        emptyBox.classList.remove("hidden");
+        return;
+      }
+
+      emptyBox.classList.add("hidden");
+      const sizes = ["S", "M", "L", "XL"];
+
+      grid.innerHTML = list
+        .map((item) => {
+          const price = Number(item.price || 0);
+          const mrp = Math.max(price, Number(item.mrp || price));
+          const offPct = mrp > price ? Math.round(((mrp - price) / mrp) * 100) : 0;
+          const stock = Number(item.stock ?? 15);
+          const outOfStock = stock <= 0;
+          const activeSz = chosenSizes[item.id] || "M";
+          const prodReviews = state.reviews.filter((r) => r.productId === item.id && r.visible);
+          const avgRate = prodReviews.length
+            ? (prodReviews.reduce((acc, r) => acc + Number(r.rating || 5), 0) / prodReviews.length).toFixed(1)
+            : "5.0";
+
+          return `
+            <article class="bg-white rounded-2xl border border-zinc-200 overflow-hidden shadow-xs hover:shadow-md transition-shadow flex flex-col min-w-0 ${outOfStock ? "opacity-80" : ""}">
+              <div class="relative aspect-square bg-obsidian overflow-hidden">
+                ${renderProductVisual(item, outOfStock ? "grayscale" : "")}
+                <span class="absolute top-2 left-2 px-2 py-0.5 rounded-md ${outOfStock ? "bg-rose-600" : "bg-obsidian/90"} text-white text-[10px] font-bold uppercase">
+                  ${outOfStock ? "Sold Out" : (item.badge || (offPct > 0 ? `${offPct}% OFF` : item.category))}
+                </span>
+                <button type="button" onclick="openReviewsModal('${item.id}')" class="tap-press absolute bottom-2 right-2 px-2 py-0.5 rounded-md bg-obsidian/90 text-white text-[10px] font-bold inline-flex items-center gap-1">
+                  <i class="fa-solid fa-star text-goldsoft text-[9px]"></i>
+                  <span>${avgRate} (${prodReviews.length})</span>
+                </button>
+              </div>
+
+              <div class="p-2.5 sm:p-4 flex-1 flex flex-col justify-between gap-2.5 min-w-0">
+                <div class="min-w-0">
+                  <div class="flex items-center justify-between gap-1 text-[10px] font-bold text-zinc-400 uppercase">
+                    <span class="truncate">${item.category}</span>
+                    ${!outOfStock && stock <= 5 ? `<span class="text-amber-700 shrink-0">${stock} left</span>` : ""}
+                  </div>
+                  <h3 class="font-bold text-obsidian text-xs sm:text-sm line-clamp-1 mt-0.5">${item.name}</h3>
+                  <div class="flex items-baseline gap-1.5 mt-1">
+                    <span class="text-sm sm:text-base font-extrabold text-obsidian">₹${price}</span>
+                    ${mrp > price ? `<span class="text-[11px] text-zinc-400 line-through">₹${mrp}</span>` : ""}
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-4 gap-1">
+                  ${sizes
+                    .map(
+                      (s) => `
+                    <button type="button" onclick="pickSize('${item.id}', '${s}')" class="tap-press py-1 rounded-lg text-[10px] sm:text-xs font-bold border ${
+                      activeSz === s ? "bg-obsidian text-white border-obsidian" : "bg-canvas text-obsidian border-zinc-200"
+                    }">${s}</button>
+                  `
+                    )
+                    .join("")}
+                </div>
+
+                ${
+                  outOfStock
+                    ? `<button type="button" disabled class="w-full py-2 rounded-xl bg-zinc-200 text-zinc-500 text-xs font-extrabold uppercase cursor-not-allowed">Sold Out</button>`
+                    : `<button type="button" onclick="addToBag('${item.id}')" class="tap-press w-full py-2.5 px-2 rounded-xl bg-obsidian hover:bg-charcoal text-white text-xs font-extrabold flex items-center justify-center gap-1.5">
+                        <i class="fa-solid fa-bag-shopping text-goldsoft text-[11px]"></i>
+                        <span>Add to Bag</span>
+                      </button>`
+                }
+              </div>
+            </article>
+          `;
+        })
+        .join("");
+    }
+
+    // ==================== SHOPPING BAG & COUPONS ====================
+    function addToBag(prodId) {
+      if (state.config.maintenanceMode) {
+        showToast("Store is in Maintenance Mode");
+        return;
+      }
+      const item = state.products.find((p) => p.id === prodId);
+      if (!item) return;
+      const maxStock = Number(item.stock ?? 15);
+      if (maxStock <= 0) {
+        showToast("Item is out of stock");
+        return;
+      }
+
+      const sz = chosenSizes[prodId] || "M";
+      const existing = bag.find((b) => b.id === prodId && b.size === sz);
+      if (existing) {
+        if (existing.qty >= maxStock) {
+          showToast(`Max ${maxStock} in stock`);
+          return;
+        }
+        existing.qty += 1;
+      } else {
+        bag.push({
+          id: item.id,
+          name: item.name,
+          category: item.category,
+          price: Number(item.price),
+          image: item.image || "",
+          size: sz,
+          qty: 1
+        });
+      }
+
+      playSound("add");
+      updateBagUI();
+      showToast(`Added ${item.name} (${sz})`);
+    }
+
+    function changeBagQty(index, delta) {
+      playSound("tap");
+      const entry = bag[index];
+      if (!entry) return;
+      const prod = state.products.find((p) => p.id === entry.id);
+      const maxStock = prod ? Number(prod.stock ?? 15) : 99;
+      const nextQty = entry.qty + delta;
+      if (nextQty <= 0) {
+        bag.splice(index, 1);
+      } else if (nextQty <= maxStock) {
+        entry.qty = nextQty;
+      } else {
+        showToast(`Only ${maxStock} available`);
+      }
+      updateBagUI();
+    }
+
+    function removeBagItem(index) {
+      playSound("tap");
+      bag.splice(index, 1);
+      updateBagUI();
+    }
+
+    function applyCoupon() {
+      playSound("tap");
+      const code = (document.getElementById("couponInput").value || "").trim().toUpperCase();
+      if (!code) return;
+      const found = state.coupons.find((c) => c.code.toUpperCase() === code && c.active);
+      if (!found) {
+        showToast("Coupon code not valid");
+        return;
+      }
+      const subtotal = bag.reduce((s, b) => s + b.price * b.qty, 0);
+      if (subtotal < Number(found.minOrder || 0)) {
+        showToast(`Min order ₹${found.minOrder} required`);
+        return;
+      }
+      activeCoupon = found;
+      playSound("confirm");
+      updateBagUI();
+      showToast(`Applied ${found.code}`);
+    }
+
+    function clearCoupon() {
+      playSound("tap");
+      activeCoupon = null;
+      document.getElementById("couponInput").value = "";
+      updateBagUI();
+    }
+
+    function chooseShippingSpeed(mode) {
+      playSound("tap");
+      shippingMode = mode;
+      updateBagUI();
+    }
+
+    function computeBagSummary() {
+      const subtotal = bag.reduce((s, b) => s + b.price * b.qty, 0);
+      let discount = 0;
+      if (activeCoupon) {
+        if (!activeCoupon.active || subtotal < Number(activeCoupon.minOrder || 0)) {
+          activeCoupon = null;
+        } else {
+          discount = activeCoupon.type === "percent"
+            ? Math.round((subtotal * Number(activeCoupon.value)) / 100)
+            : Number(activeCoupon.value);
+          discount = Math.min(discount, subtotal);
+        }
+      }
+
+      const afterDisc = Math.max(0, subtotal - discount);
+      const stdFee = Number(state.config.stdShippingFee ?? 49);
+      const freeMin = Number(state.config.freeShippingMin ?? 999);
+      const expFee = Number(state.config.expShippingFee ?? 99);
+
+      let shipping = afterDisc === 0 || afterDisc >= freeMin ? 0 : stdFee;
+      if (state.config.expressEnabled && shippingMode === "express" && afterDisc > 0) {
+        shipping += expFee;
+      }
+
+      return {
+        subtotal,
+        discount,
+        couponCode: activeCoupon ? activeCoupon.code : "",
+        shipping,
+        total: afterDisc + shipping
+      };
+    }
+
+    function updateBagUI() {
+      const totalQty = bag.reduce((s, b) => s + b.qty, 0);
+      document.getElementById("bagCountBadge").textContent = totalQty;
+      document.getElementById("drawerBadge").textContent = totalQty;
+
+      const listEl = document.getElementById("bagItemsList");
+      const footerEl = document.getElementById("bagFooterBox");
+
+      if (bag.length === 0) {
+        activeCoupon = null;
+        listEl.innerHTML = `
+          <div class="text-center py-12 space-y-2.5">
+            <div class="w-12 h-12 mx-auto rounded-full bg-obsidian text-white flex items-center justify-center text-lg">
+              <i class="fa-solid fa-bag-shopping"></i>
+            </div>
+            <p class="font-display font-bold text-base text-obsidian">Your bag is empty</p>
+            <p class="text-xs text-zinc-500">Add outfits to proceed with QR checkout.</p>
+          </div>
+        `;
+        footerEl.classList.add("hidden");
+        return;
+      }
+
+      footerEl.classList.remove("hidden");
+      listEl.innerHTML = bag
+        .map(
+          (item, idx) => `
+        <div class="flex gap-3 p-3 rounded-2xl bg-white border border-zinc-200">
+          <div class="w-14 h-14 rounded-xl overflow-hidden bg-obsidian shrink-0">
+            ${renderProductVisual(item)}
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-start justify-between gap-2">
+              <h4 class="font-bold text-xs sm:text-sm text-obsidian truncate">${item.name}</h4>
+              <button type="button" onclick="removeBagItem(${idx})" class="text-xs text-rose-600 font-bold shrink-0">Remove</button>
+            </div>
+            <p class="text-xs text-zinc-500 mt-0.5">Size: <strong class="text-obsidian">${item.size}</strong> • ₹${item.price}</p>
+            <div class="flex items-center justify-between mt-2">
+              <div class="inline-flex items-center rounded-lg border border-zinc-300 bg-canvas">
+                <button type="button" onclick="changeBagQty(${idx}, -1)" class="tap-press px-2 py-0.5 text-xs font-bold">-</button>
+                <span class="px-2 py-0.5 text-xs font-extrabold">${item.qty}</span>
+                <button type="button" onclick="changeBagQty(${idx}, 1)" class="tap-press px-2 py-0.5 text-xs font-bold">+</button>
+              </div>
+              <strong class="text-xs sm:text-sm text-obsidian">₹${item.price * item.qty}</strong>
+            </div>
+          </div>
+        </div>
+      `
+        )
+        .join("");
+
+      const summary = computeBagSummary();
+
+      const appliedBanner = document.getElementById("couponAppliedBanner");
+      if (activeCoupon) {
+        appliedBanner.classList.remove("hidden");
+        appliedBanner.classList.add("flex");
+        document.getElementById("couponAppliedLabel").textContent = `${summary.couponCode} (-₹${summary.discount})`;
+      } else {
+        appliedBanner.classList.add("hidden");
+        appliedBanner.classList.remove("flex");
+      }
+
+      const expRow = document.getElementById("expressToggleRow");
+      expRow.classList.toggle("hidden", !state.config.expressEnabled);
+      document.getElementById("stdShipSub").textContent = `Free above ₹${state.config.freeShippingMin}`;
+      document.getElementById("expShipSub").textContent = `+₹${state.config.expShippingFee}`;
+      document.getElementById("stdShipBtn").className =
+        shippingMode === "standard"
+          ? "tap-press p-2 rounded-xl border border-obsidian bg-obsidian text-white font-bold text-left"
+          : "tap-press p-2 rounded-xl border border-zinc-300 bg-canvas text-obsidian font-bold text-left";
+      document.getElementById("expShipBtn").className =
+        shippingMode === "express"
+          ? "tap-press p-2 rounded-xl border border-obsidian bg-obsidian text-white font-bold text-left"
+          : "tap-press p-2 rounded-xl border border-zinc-300 bg-canvas text-obsidian font-bold text-left";
+
+      const discRow = document.getElementById("bagDiscountRow");
+      if (summary.discount > 0) {
+        discRow.classList.remove("hidden");
+        discRow.classList.add("flex");
+        document.getElementById("bagDiscountText").textContent = `-₹${summary.discount}`;
+      } else {
+        discRow.classList.add("hidden");
+        discRow.classList.remove("flex");
+      }
+
+      document.getElementById("bagSubtotalText").textContent = `₹${summary.subtotal}`;
+      document.getElementById("bagShippingText").textContent = summary.shipping === 0 ? "FREE" : `₹${summary.shipping}`;
+      document.getElementById("bagTotalText").textContent = `₹${summary.total}`;
+    }
+
+    function openBagDrawer() {
+      playSound("tap");
+      updateBagUI();
+      document.getElementById("bagBackdrop").classList.remove("hidden");
+      document.getElementById("bagDrawer").classList.remove("translate-x-full");
+    }
+
+    function closeBagDrawer() {
+      playSound("tap");
+      document.getElementById("bagBackdrop").classList.add("hidden");
+      document.getElementById("bagDrawer").classList.add("translate-x-full");
+    }
+
+    // ==================== CHECKOUT & WHATSAPP RECEIPT ====================
+    function openCheckout() {
+      if (state.config.maintenanceMode) {
+        showToast("Checkout paused in Maintenance Mode");
+        return;
+      }
+      if (bag.length === 0) {
+        showToast("Add items to bag first");
+        return;
+      }
+      playSound("tap");
+      closeBagDrawer();
+      const summary = computeBagSummary();
+      document.getElementById("coPayableText").textContent = `₹${summary.total}`;
+      document.getElementById("coQrAmountNote").textContent = `₹${summary.total}`;
+      renderQrDisplays(summary.total);
+      document.getElementById("checkoutModal").classList.remove("hidden");
+      document.getElementById("checkoutModal").classList.add("flex");
+    }
+
+    function closeCheckout() {
+      playSound("tap");
+      document.getElementById("checkoutModal").classList.add("hidden");
+      document.getElementById("checkoutModal").classList.remove("flex");
+    }
+
+    function copyUpiAddress() {
+      copyClipboard(state.config.upiId || "zcart@upi", "UPI ID copied");
+    }
+
+    function buildWhatsAppOrderLink(order) {
+      const phone10 = String(order.phone || "").replace(/\D/g, "").slice(-10);
+      const handle = String(state.config.instaHandle || "zcartofficials_").replace(/^@/, "");
+      const lines = (order.items || [])
+        .map((it, idx) => `${idx + 1}. ${it.name} [${it.size}] x${it.qty} = ₹${it.price * it.qty}`)
+        .join("\n");
+
+      const text = [
+        `*${state.config.storeName || "ZCART"} — ORDER RECEIPT*`,
+        `Order ID: ${order.orderId}`,
+        `Status: ${order.status}`,
+        `Customer: ${order.customerName} (+91 ${phone10})`,
+        `Address: ${order.address}, ${order.cityPin}`,
+        `--- Items ---`,
+        lines,
+        `Subtotal: ₹${order.subtotal}`,
+        order.discount > 0 ? `Discount (${order.couponCode}): -₹${order.discount}` : null,
+        `Shipping: ${order.shipping === 0 ? "FREE" : "₹" + order.shipping}`,
+        `*Total Paid: ₹${order.totalAmount}*`,
+        `UPI UTR: ${order.utr}`,
+        `Helpline: https://instagram.com/${handle} (@${handle})`
+      ]
+        .filter(Boolean)
+        .join("\n");
+
+      return `https://wa.me/91${phone10}?text=${encodeURIComponent(text)}`;
+    }
+
+    function placeQrOrder(event) {
+      event.preventDefault();
+      if (state.config.maintenanceMode) {
+        showToast("Checkout paused in Maintenance Mode");
+        return;
+      }
+
+      const customerName = document.getElementById("coName").value.trim();
+      const phone = document.getElementById("coPhone").value.trim();
+      const address = document.getElementById("coAddress").value.trim();
+      const cityPin = document.getElementById("coCityPin").value.trim();
+      const utr = document.getElementById("coUtr").value.trim();
+
+      if (!customerName || !/^[0-9]{10}$/.test(phone) || !address || !cityPin || utr.length < 6) {
+        showToast("Fill all fields & valid UPI UTR");
+        return;
+      }
+
+      const summary = computeBagSummary();
+      const orderId = "ZC-" + Math.floor(100000 + Math.random() * 900000);
+      const orderedItems = bag.map((b) => ({
+        id: b.id,
+        name: b.name,
+        category: b.category,
+        size: b.size,
+        qty: b.qty,
+        price: b.price
+      }));
+
+      // Deduct product stock
+      orderedItems.forEach((oi) => {
+        const prod = state.products.find((p) => p.id === oi.id);
+        if (prod) {
+          prod.stock = Math.max(0, Number(prod.stock ?? 15) - oi.qty);
+        }
+      });
+
+      const orderRecord = {
+        orderId,
+        customerName,
+        phone,
+        address,
+        cityPin,
+        utr,
+        items: orderedItems,
+        subtotal: summary.subtotal,
+        discount: summary.discount,
+        couponCode: summary.couponCode,
+        shipping: summary.shipping,
+        shippingMode,
+        totalAmount: summary.total,
+        status: "Payment Verifying",
+        createdAt: Date.now()
+      };
+
+      state.orders.unshift(orderRecord);
+      lastOrderId = orderId;
+      bag = [];
+      activeCoupon = null;
+
+      persistPermanentState();
+      renderCatalog();
+      updateBagUI();
+      renderAllAdminSections();
+
+      document.getElementById("checkoutOrderForm").reset();
+      closeCheckout();
+
+      const waUrl = buildWhatsAppOrderLink(orderRecord);
+      document.getElementById("doneOrderIdText").textContent = orderId;
+      document.getElementById("doneWhatsAppBtn").href = waUrl;
+      document.getElementById("doneReceiptSummary").innerHTML = `
+        <p><strong>Name:</strong> ${customerName} (+91 ${phone})</p>
+        <p><strong>Address:</strong> ${address}, ${cityPin}</p>
+        <div class="pt-1 border-t border-zinc-100">
+          ${orderedItems.map((i) => `<p>• ${i.name} [${i.size}] x${i.qty} — <strong>₹${i.price * i.qty}</strong></p>`).join("")}
+        </div>
+        <div class="pt-1 border-t border-zinc-100 flex justify-between font-extrabold text-obsidian">
+          <span>UTR: ${utr}</span>
+          <span class="text-emerald-700">₹${orderRecord.totalAmount}</span>
+        </div>
+      `;
+
+      playSound("confirm");
+      document.getElementById("orderDoneModal").classList.remove("hidden");
+      document.getElementById("orderDoneModal").classList.add("flex");
+
+      setTimeout(() => {
+        try {
+          window.open(waUrl, "_blank", "noopener,noreferrer");
+        } catch (e) {}
+      }, 500);
+    }
+
+    function copyLastOrderId() {
+      copyClipboard(lastOrderId, `Copied ${lastOrderId}`);
+    }
+
+    function closeOrderDoneModal() {
+      playSound("tap");
+      document.getElementById("orderDoneModal").classList.add("hidden");
+      document.getElementById("orderDoneModal").classList.remove("flex");
+    }
+
+    // ==================== TRACK ORDER & RETURNS ====================
+    function openTrackModal() {
+      playSound("tap");
+      document.getElementById("trackModal").classList.remove("hidden");
+      document.getElementById("trackModal").classList.add("flex");
+      if (lastOrderId) {
+        document.getElementById("trackQueryInput").value = lastOrderId;
+        runOrderTrack();
+      } else {
+        document.getElementById("trackResultArea").innerHTML = `<p class="text-xs text-zinc-500 text-center py-4">Search by Order ID (e.g. ZC-123456) or 10-digit WhatsApp number.</p>`;
+      }
+    }
+
+    function closeTrackModal() {
+      playSound("tap");
+      document.getElementById("trackModal").classList.add("hidden");
+      document.getElementById("trackModal").classList.remove("flex");
+    }
+
+    function runOrderTrack() {
+      playSound("tap");
+      const q = (document.getElementById("trackQueryInput").value || "").trim().toLowerCase();
+      const box = document.getElementById("trackResultArea");
+      if (!q) return;
+
+      const match = state.orders.find(
+        (o) => String(o.orderId).toLowerCase() === q || String(o.phone || "").includes(q)
+      );
+
+      if (!match) {
+        box.innerHTML = `<div class="p-4 rounded-xl bg-amber-50 border border-amber-200 text-xs font-bold text-amber-900 text-center">No order found for "${q.replace(/</g, "&lt;")}"</div>`;
+        return;
+      }
+
+      const stages = ["Verifying", "Packed", "Shipped", "Delivered"];
+      let idx = 0;
+      const stLower = String(match.status || "").toLowerCase();
+      if (stLower.includes("pack")) idx = 1;
+      else if (stLower.includes("ship")) idx = 2;
+      else if (stLower.includes("deliver")) idx = 3;
+
+      const existingReturn = state.returns.find((r) => r.orderId === match.orderId);
+      const waLink = buildWhatsAppOrderLink(match);
+
+      box.innerHTML = `
+        <div class="bg-white p-4 rounded-2xl border border-zinc-200 space-y-3 text-xs">
+          <div class="flex items-center justify-between border-b border-zinc-100 pb-2">
+            <div>
+              <span class="text-[10px] uppercase text-zinc-400 font-bold">Order ID</span>
+              <p class="font-mono font-extrabold text-sm text-obsidian">${match.orderId}</p>
+            </div>
+            <span class="px-2.5 py-1 rounded-full bg-obsidian text-white font-bold">${match.status}</span>
+          </div>
+          <p><strong>Customer:</strong> ${match.customerName} (+91 ${match.phone})</p>
+          <p><strong>Items:</strong> ${(match.items || []).map((i) => `${i.name} (${i.size} x${i.qty})`).join(", ")}</p>
+          <p><strong>Total Paid:</strong> ₹${match.totalAmount} • UTR: <span class="font-mono">${match.utr}</span></p>
+
+          <div class="grid grid-cols-4 gap-1.5 pt-1">
+            ${stages
+              .map(
+                (label, i) => `
+              <div class="text-center">
+                <div class="h-1.5 rounded-full mb-1 ${i <= idx ? "bg-obsidian" : "bg-zinc-200"}"></div>
+                <span class="text-[10px] font-bold ${i <= idx ? "text-obsidian" : "text-zinc-400"}">${label}</span>
+              </div>
+            `
+              )
+              .join("")}
+          </div>
+
+          <a href="${waLink}" target="_blank" rel="noopener noreferrer" class="tap-press w-full py-2.5 rounded-xl bg-emerald-600 text-white font-bold flex items-center justify-center gap-2">
+            <i class="fa-brands fa-whatsapp text-base"></i> Open WhatsApp Receipt
+          </a>
+
+          ${
+            existingReturn
+              ? `<div class="p-2.5 rounded-xl bg-amber-50 border border-amber-200 font-bold text-amber-900 text-center">Return/Refund Request (${existingReturn.id}): ${existingReturn.status}</div>`
+              : `<div class="pt-2 border-t border-zinc-100 space-y-2">
+                  <p class="font-bold text-zinc-700">Request Return / Refund</p>
+                  <div class="flex gap-1.5">
+                    <input type="text" id="returnReasonField" placeholder="Reason (e.g. Size exchange / Damaged)" class="flex-1 min-w-0 px-2.5 py-1.5 rounded-xl border border-zinc-300 text-xs outline-none" />
+                    <button type="button" onclick="createReturnRequest('${match.orderId}')" class="tap-press px-3 py-1.5 rounded-xl bg-obsidian text-white font-bold shrink-0">Submit</button>
+                  </div>
+                </div>`
+          }
+        </div>
+      `;
+    }
+
+    function createReturnRequest(orderId) {
+      const order = state.orders.find((o) => o.orderId === orderId);
+      if (!order) return;
+      const reason = (document.getElementById("returnReasonField").value || "").trim();
+      if (!reason) {
+        showToast("Enter a return reason");
+        return;
+      }
+
+      state.returns.unshift({
+        id: "RET-" + Math.floor(1000 + Math.random() * 9000),
+        orderId: order.orderId,
+        customerName: order.customerName,
+        phone: order.phone,
+        amount: order.totalAmount,
+        reason,
+        status: "Pending",
+        createdAt: Date.now()
+      });
+
+      playSound("confirm");
+      persistPermanentState();
+      renderAllAdminSections();
+      runOrderTrack();
+      showToast("Return request submitted");
+    }
+
+    // ==================== REVIEWS & SUPPORT TICKETS ====================
+    function openReviewsModal(prodId) {
+      playSound("tap");
+      const prod = state.products.find((p) => p.id === prodId);
+      if (!prod) return;
+      document.getElementById("revTargetProdId").value = prod.id;
+      document.getElementById("reviewsProductTitle").textContent = prod.name;
+      renderReviewsList(prod.id);
+      document.getElementById("reviewsModal").classList.remove("hidden");
+      document.getElementById("reviewsModal").classList.add("flex");
+    }
+
+    function closeReviewsModal() {
+      playSound("tap");
+      document.getElementById("reviewsModal").classList.add("hidden");
+      document.getElementById("reviewsModal").classList.remove("flex");
+    }
+
+    function renderReviewsList(prodId) {
+      const box = document.getElementById("reviewsListBox");
+      const items = state.reviews.filter((r) => r.productId === prodId && r.visible);
+      if (items.length === 0) {
+        box.innerHTML = `<p class="text-xs text-zinc-500 text-center py-4">No reviews yet.</p>`;
+        return;
+      }
+      box.innerHTML = items
+        .map(
+          (r) => `
+        <div class="bg-white p-3 rounded-2xl border border-zinc-200 text-xs space-y-1">
+          <div class="flex items-center justify-between">
+            <strong class="text-obsidian">${r.author}</strong>
+            <span class="text-amber-500 font-bold">${"★".repeat(Number(r.rating || 5))}</span>
+          </div>
+          <p class="text-zinc-700">${r.comment}</p>
+          ${r.reply ? `<p class="pl-2.5 border-l-2 border-obsidian text-[11px] text-zinc-600"><strong>Admin Reply:</strong> ${r.reply}</p>` : ""}
+        </div>
+      `
+        )
+        .join("");
+    }
+
+    function addCustomerReview(event) {
+      event.preventDefault();
+      const productId = document.getElementById("revTargetProdId").value;
+      const prod = state.products.find((p) => p.id === productId);
+      const author = document.getElementById("revAuthorInput").value.trim();
+      const rating = Number(document.getElementById("revStarsSelect").value);
+      const comment = document.getElementById("revTextInput").value.trim();
+
+      state.reviews.unshift({
+        id: "rv-" + Date.now(),
+        productId,
+        productName: prod ? prod.name : "ZCART Item",
+        author,
+        rating,
+        comment,
+        visible: true,
+        reply: ""
+      });
+
+      event.target.reset();
+      playSound("confirm");
+      persistPermanentState();
+      renderReviewsList(productId);
+      renderCatalog();
+      renderAllAdminSections();
+      showToast("Review published");
+    }
+
+    function openHelplineModal() {
+      playSound("tap");
+      document.getElementById("helplineModal").classList.remove("hidden");
+      document.getElementById("helplineModal").classList.add("flex");
+    }
+
+    function closeHelplineModal() {
+      playSound("tap");
+      document.getElementById("helplineModal").classList.add("hidden");
+      document.getElementById("helplineModal").classList.remove("flex");
+    }
+
+    function copyHelplineId() {
+      const h = String(state.config.instaHandle || "zcartofficials_").replace(/^@/, "");
+      copyClipboard(`@${h}`, `Copied @${h}`);
+    }
+
+    function submitSupportTicket(event) {
+      event.preventDefault();
+      const name = document.getElementById("supName").value.trim();
+      const phone = document.getElementById("supPhone").value.trim();
+      const message = document.getElementById("supMessage").value.trim();
+
+      state.tickets.unshift({
+        id: "TKT-" + Math.floor(1000 + Math.random() * 9000),
+        name,
+        phone,
+        message,
+        status: "Open",
+        createdAt: Date.now()
+      });
+
+      event.target.reset();
+      playSound("confirm");
+      persistPermanentState();
+      renderAllAdminSections();
+      closeHelplineModal();
+      showToast("Support message saved");
+    }
+
+    // ==================== 15-SECTION ADMIN & STAFF PANEL ====================
+    const ADMIN_SECTIONS = [
+      { id: "dashboard", num: "1", label: "Dashboard", icon: "fa-table-cells-large" },
+      { id: "products", num: "2", label: "Products", icon: "fa-shirt" },
+      { id: "orders", num: "3", label: "Orders", icon: "fa-box" },
+      { id: "customers", num: "4", label: "Customers", icon: "fa-users" },
+      { id: "inventory", num: "5", label: "Inventory", icon: "fa-warehouse" },
+      { id: "coupons", num: "6", label: "Coupons & Offers", icon: "fa-tag" },
+      { id: "payments", num: "7", label: "Payments", icon: "fa-qrcode" },
+      { id: "returns", num: "8", label: "Returns & Refunds", icon: "fa-rotate-left" },
+      { id: "shipping", num: "9", label: "Shipping", icon: "fa-truck" },
+      { id: "analytics", num: "10", label: "Reports & Analytics", icon: "fa-chart-line" },
+      { id: "banners", num: "11", label: "Website Banners", icon: "fa-image" },
+      { id: "reviews", num: "12", label: "Reviews", icon: "fa-star" },
+      { id: "support", num: "13", label: "Customer Support", icon: "fa-headset" },
+      { id: "staff", num: "14", label: "Staff Management", icon: "fa-user-shield" },
+      { id: "settings", num: "15", label: "Settings", icon: "fa-gear" }
+    ];
+
+    function buildAdminNav() {
+      const navBox = document.getElementById("adminNavItems");
+      if (!navBox) return;
+      navBox.innerHTML = ADMIN_SECTIONS.map((s) => {
+        const active = activeAdminSec === s.id;
+        return `
+          <button type="button" onclick="selectAdminSection('${s.id}')" class="tap-press w-full px-3.5 py-3 flex items-center justify-between gap-2 text-left ${
+            active ? "bg-obsidian text-white" : "bg-white hover:bg-zinc-50 text-obsidian"
+          }">
+            <span class="flex items-center gap-2.5 min-w-0">
+              <i class="fa-solid ${s.icon} w-4 text-center text-xs ${active ? "text-goldsoft" : "text-zinc-500"}"></i>
+              <span class="text-xs sm:text-sm font-bold truncate">${s.num}. ${s.label}</span>
+            </span>
+            <i class="fa-solid fa-chevron-right text-[10px] ${active ? "text-zinc-300" : "text-zinc-400"}"></i>
+          </button>
+        `;
+      }).join("");
+    }
+
+    function selectAdminSection(secId) {
+      playSound("tap");
+      activeAdminSec = secId;
+      buildAdminNav();
+
+      document.querySelectorAll(".admin-pane").forEach((pane) => {
+        pane.classList.toggle("hidden", pane.id !== `sec-${secId}`);
+      });
+
+      if (window.innerWidth < 768) {
+        document.getElementById("adminSidebarNav").classList.add("hidden");
+        document.getElementById("adminSectionPane").classList.remove("hidden");
+        document.getElementById("adminMobileBackBtn").classList.remove("hidden");
+        document.getElementById("adminMobileBackBtn").classList.add("inline-flex");
+      }
+
+      renderAllAdminSections();
+    }
+
+    function openAdminMobileNav() {
+      playSound("tap");
+      document.getElementById("adminSidebarNav").classList.remove("hidden");
+      document.getElementById("adminSectionPane").classList.add("hidden");
+      document.getElementById("adminMobileBackBtn").classList.add("hidden");
+      document.getElementById("adminMobileBackBtn").classList.remove("inline-flex");
+    }
+
+    function openAdminPanel() {
+      playSound("tap");
+      buildAdminNav();
+      document.getElementById("adminModal").classList.remove("hidden");
+      document.getElementById("adminModal").classList.add("flex");
+      if (adminLoggedInUser) {
+        renderAllAdminSections();
+      }
+    }
+
+    function closeAdminPanel() {
+      playSound("tap");
+      document.getElementById("adminModal").classList.add("hidden");
+      document.getElementById("adminModal").classList.remove("flex");
+    }
+
+    function loginAdminPanel() {
+      const entered = (document.getElementById("adminPassInput").value || "").trim();
+      const master = state.config.adminPassword || "Amitsingh#2007";
+
+      if (entered === master) {
+        adminLoggedInUser = { name: "Master Owner", role: "Owner" };
+      } else {
+        const staffHit = state.staff.find((st) => st.active && st.pin === entered);
+        if (staffHit) {
+          adminLoggedInUser = { name: staffHit.name, role: staffHit.role };
+        }
+      }
+
+      if (!adminLoggedInUser) {
+        playSound("tap");
+        showToast("Invalid password or PIN");
+        return;
+      }
+
+      playSound("confirm");
+      document.getElementById("adminPassInput").value = "";
+      document.getElementById("adminAuthBox").classList.add("hidden");
+      document.getElementById("adminWorkspace").classList.remove("hidden");
+      const pill = document.getElementById("adminRolePill");
+      pill.textContent = adminLoggedInUser.role;
+      pill.classList.remove("hidden");
+      document.getElementById("adminLockBtn").classList.remove("hidden");
+      buildAdminNav();
+      renderAllAdminSections();
+      showToast(`Signed in as ${adminLoggedInUser.role}`);
+    }
+
+    function lockAdminPanel() {
+      playSound("tap");
+      adminLoggedInUser = null;
+      document.getElementById("adminAuthBox").classList.remove("hidden");
+      document.getElementById("adminWorkspace").classList.add("hidden");
+      document.getElementById("adminRolePill").classList.add("hidden");
+      document.getElementById("adminLockBtn").classList.add("hidden");
+      showToast("Admin locked");
+    }
+
+    function compressPhotoFile(file, done) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement("canvas");
+          const maxSide = 480;
+          let w = img.width;
+          let h = img.height;
+          if (w > maxSide || h > maxSide) {
+            if (w > h) {
+              h = Math.round((h * maxSide) / w);
+              w = maxSide;
+            } else {
+              w = Math.round((w * maxSide) / h);
+              h = maxSide;
+            }
+          }
+          canvas.width = w;
+          canvas.height = h;
+          canvas.getContext("2d").drawImage(img, 0, 0, w, h);
+          done(canvas.toDataURL("image/jpeg", 0.78));
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function renderAllAdminSections() {
+      renderDashboardSection();
+      renderProductsSection();
+      renderAdminOrdersSection();
+      renderCustomersSection();
+      renderInventorySection();
+      renderCouponsSection();
+      renderPaymentsSection();
+      renderReturnsSection();
+      hydrateShippingForm();
+      renderAnalyticsSection();
+      hydrateBannerForm();
+      renderAdminReviewsSection();
+      renderSupportSection();
+      renderStaffSection();
+      hydrateSettingsForm();
+    }
+
+    // 1. Dashboard
+    function renderDashboardSection() {
+      const grid = document.getElementById("dashStatsGrid");
+      const prev = document.getElementById("dashOrdersPreview");
+      if (!grid || !prev) return;
+
+      const revenue = state.orders
+        .filter((o) => o.status !== "Cancelled")
+        .reduce((s, o) => s + Number(o.totalAmount || 0), 0);
+      const uniqueCust = new Set(state.orders.map((o) => o.phone)).size;
+      const lowStock = state.products.filter((p) => Number(p.stock ?? 15) <= 5).length;
+      const openAlerts =
+        state.returns.filter((r) => r.status === "Pending").length +
+        state.tickets.filter((t) => t.status === "Open").length;
+
+      const cards = [
+        { label: "Revenue", val: `₹${revenue.toLocaleString("en-IN")}`, icon: "fa-indian-rupee-sign" },
+        { label: "Orders", val: state.orders.length, icon: "fa-box" },
+        { label: "Active Clothes", val: state.products.length, icon: "fa-shirt" },
+        { label: "Customers", val: uniqueCust, icon: "fa-users" },
+        { label: "Low Stock (<=5)", val: lowStock, icon: "fa-triangle-exclamation" },
+        { label: "Open Returns/Tickets", val: openAlerts, icon: "fa-bell" }
+      ];
+
+      grid.innerHTML = cards
+        .map(
+          (c) => `
+        <div class="bg-white p-3.5 rounded-2xl border border-zinc-200 flex items-center justify-between gap-2">
+          <div>
+            <span class="text-[11px] font-semibold text-zinc-500 block">${c.label}</span>
+            <strong class="font-display text-lg sm:text-xl font-bold text-obsidian">${c.val}</strong>
+          </div>
+          <div class="w-9 h-9 rounded-xl bg-canvas flex items-center justify-center text-obsidian">
+            <i class="fa-solid ${c.icon}"></i>
+          </div>
+        </div>
+      `
+        )
+        .join("");
+
+      if (state.orders.length === 0) {
+        prev.innerHTML = `<p class="text-xs text-zinc-500 py-2">No orders yet.</p>`;
+      } else {
+        prev.innerHTML = state.orders
+          .slice(0, 4)
+          .map(
+            (o) => `
+          <div class="flex items-center justify-between gap-2 p-2.5 rounded-xl bg-canvas text-xs">
+            <div class="min-w-0">
+              <strong class="font-mono text-obsidian">${o.orderId}</strong> • <span>${o.customerName}</span>
+            </div>
+            <div class="text-right shrink-0">
+              <strong class="text-obsidian">₹${o.totalAmount}</strong>
+              <span class="ml-1.5 text-[10px] font-bold text-emerald-700">${o.status}</span>
+            </div>
+          </div>
+        `
+          )
+          .join("");
+      }
+    }
+
+    // 2. Products
+    function onProductPhotoPicked(event, mode) {
+      const file = event.target.files[0];
+      if (!file) return;
+      compressPhotoFile(file, (dataUrl) => {
+        if (mode === "add") {
+          addProdPhotoUrl = dataUrl;
+          document.getElementById("prodAddFileLabel").textContent = "Photo Ready ✓";
+        } else {
+          editProdPhotoUrl = dataUrl;
+          document.getElementById("prodEditFileLabel").textContent = "Photo Ready ✓";
+        }
+        playSound("add");
+        showToast("Photo attached");
+      });
+    }
+
+    function adminCreateProduct(event) {
+      event.preventDefault();
+      const name = document.getElementById("prodAddName").value.trim();
+      const category = document.getElementById("prodAddCategory").value;
+      const badge = document.getElementById("prodAddBadge").value.trim();
+      const price = Number(document.getElementById("prodAddPrice").value);
+      const mrp = Math.max(price, Number(document.getElementById("prodAddMrp").value));
+      const stock = Math.max(0, Number(document.getElementById("prodAddStock").value));
+      const urlField = document.getElementById("prodAddImage").value.trim();
+      const image = addProdPhotoUrl || urlField;
+
+      state.products.unshift({
+        id: "cl-" + Date.now(),
+        name,
+        category,
+        price,
+        mrp,
+        stock,
+        badge,
+        image
+      });
+
+      addProdPhotoUrl = "";
+      document.getElementById("prodAddFileLabel").innerHTML = `<i class="fa-solid fa-upload mr-1"></i> Upload Photo`;
+      event.target.reset();
+      playSound("confirm");
+      persistPermanentState();
+      renderCatalog();
+      renderAllAdminSections();
+      showToast(`Added "${name}"`);
+    }
+
+    function startProdEdit(id) {
+      playSound("tap");
+      const item = state.products.find((p) => p.id === id);
+      if (!item) return;
+      editProdPhotoUrl = "";
+      document.getElementById("prodEditFileLabel").innerHTML = `<i class="fa-solid fa-camera mr-1"></i> Change Photo`;
+      document.getElementById("prodEditId").value = item.id;
+      document.getElementById("prodEditName").value = item.name;
+      document.getElementById("prodEditCategory").value = item.category;
+      document.getElementById("prodEditBadge").value = item.badge || "";
+      document.getElementById("prodEditPrice").value = item.price;
+      document.getElementById("prodEditMrp").value = item.mrp;
+      document.getElementById("prodEditStock").value = item.stock ?? 15;
+      document.getElementById("prodEditImage").value = item.image || "";
+      document.getElementById("prodEditForm").classList.remove("hidden");
+    }
+
+    function cancelProdEdit() {
+      playSound("tap");
+      editProdPhotoUrl = "";
+      document.getElementById("prodEditForm").classList.add("hidden");
+    }
+
+    function adminUpdateProduct(event) {
+      event.preventDefault();
+      const id = document.getElementById("prodEditId").value;
+      const idx = state.products.findIndex((p) => p.id === id);
+      if (idx === -1) return;
+
+      const price = Number(document.getElementById("prodEditPrice").value);
+      const mrp = Math.max(price, Number(document.getElementById("prodEditMrp").value));
+      const urlField = document.getElementById("prodEditImage").value.trim();
+
+      state.products[idx] = {
+        ...state.products[idx],
+        name: document.getElementById("prodEditName").value.trim(),
+        category: document.getElementById("prodEditCategory").value,
+        badge: document.getElementById("prodEditBadge").value.trim(),
+        price,
+        mrp,
+        stock: Math.max(0, Number(document.getElementById("prodEditStock").value)),
+        image: editProdPhotoUrl || urlField
+      };
+
+      cancelProdEdit();
+      playSound("confirm");
+      persistPermanentState();
+      renderCatalog();
+      renderAllAdminSections();
+      showToast("Product updated");
+    }
+
+    function adminRemoveProduct(id) {
+      playSound("tap");
+      state.products = state.products.filter((p) => p.id !== id);
+      bag = bag.filter((b) => b.id !== id);
+      persistPermanentState();
+      renderCatalog();
+      updateBagUI();
+      renderAllAdminSections();
+      showToast("Product deleted");
+    }
+
+    function renderProductsSection() {
+      const box = document.getElementById("adminProductsContainer");
+      if (!box) return;
+      if (state.products.length === 0) {
+        box.innerHTML = `<p class="col-span-full text-xs text-zinc-500 text-center py-6 bg-white rounded-2xl border border-zinc-200">No products in catalog.</p>`;
+        return;
+      }
+      box.innerHTML = state.products
+        .map(
+          (p) => `
+        <div class="bg-white p-3 rounded-2xl border border-zinc-200 flex items-center justify-between gap-2.5">
+          <div class="flex items-center gap-2.5 min-w-0">
+            <div class="w-11 h-11 rounded-xl overflow-hidden bg-obsidian shrink-0">${renderProductVisual(p)}</div>
+            <div class="min-w-0">
+              <p class="font-bold text-xs text-obsidian truncate">${p.name}</p>
+              <p class="text-[11px] text-zinc-500">${p.category} • <strong>₹${p.price}</strong> • Stock: <strong>${p.stock ?? 15}</strong></p>
+            </div>
+          </div>
+          <div class="flex items-center gap-1.5 shrink-0">
+            <button type="button" onclick="startProdEdit('${p.id}')" class="tap-press px-2.5 py-1.5 rounded-lg bg-amber-50 text-amber-800 text-xs font-bold">Edit</button>
+            <button type="button" onclick="adminRemoveProduct('${p.id}')" class="tap-press px-2.5 py-1.5 rounded-lg bg-rose-50 text-rose-600 text-xs font-bold">Delete</button>
+          </div>
+        </div>
+      `
+        )
+        .join("");
+    }
+
+    // 3. Orders
+    function setOrderStatus(orderId, status) {
+      playSound("add");
+      const ord = state.orders.find((o) => o.orderId === orderId);
+      if (!ord) return;
+      ord.status = status;
+      persistPermanentState();
+      renderAllAdminSections();
+      showToast(`${orderId} -> ${status}`);
+    }
+
+    function deleteOrderRecord(orderId) {
+      playSound("tap");
+      state.orders = state.orders.filter((o) => o.orderId !== orderId);
+      persistPermanentState();
+      renderAllAdminSections();
+      showToast(`Removed ${orderId}`);
+    }
+
+    function renderAdminOrdersSection() {
+      const box = document.getElementById("adminOrdersContainer");
+      const filterSel = document.getElementById("orderStatusFilter");
+      if (!box) return;
+      const filterVal = filterSel ? filterSel.value : "All";
+      const rows = filterVal === "All" ? state.orders : state.orders.filter((o) => o.status === filterVal);
+
+      if (rows.length === 0) {
+        box.innerHTML = `<p class="text-xs text-zinc-500 text-center py-6 bg-white rounded-2xl border border-zinc-200">No matching orders.</p>`;
+        return;
+      }
+
+      box.innerHTML = rows
+        .map((o) => {
+          const waUrl = buildWhatsAppOrderLink(o);
+          const statuses = ["Payment Verifying", "Confirmed", "Packed", "Shipped", "Delivered", "Cancelled"];
+          return `
+          <div class="bg-white p-3.5 rounded-2xl border border-zinc-200 space-y-2 text-xs">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <div>
+                <strong class="font-mono text-sm text-obsidian">${o.orderId}</strong>
+                <span class="font-bold text-zinc-700 ml-1.5">${o.customerName} (+91 ${o.phone})</span>
+              </div>
+              <select onchange="setOrderStatus('${o.orderId}', this.value)" class="px-2.5 py-1 rounded-lg border border-zinc-300 bg-canvas font-bold">
+                ${statuses.map((st) => `<option value="${st}" ${o.status === st ? "selected" : ""}>${st}</option>`).join("")}
+              </select>
+            </div>
+            <p class="text-zinc-600"><strong>Items:</strong> ${(o.items || []).map((i) => `${i.name} (${i.size} x${i.qty})`).join(", ")}</p>
+            <p class="text-zinc-600"><strong>Address:</strong> ${o.address}, ${o.cityPin}</p>
+            <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-zinc-100">
+              <span class="font-extrabold text-obsidian">Paid: ₹${o.totalAmount} • UTR: <span class="font-mono">${o.utr}</span></span>
+              <div class="flex items-center gap-1.5">
+                <a href="${waUrl}" target="_blank" rel="noopener noreferrer" onclick="playSound('confirm')" class="tap-press px-3 py-1.5 rounded-lg bg-emerald-600 text-white font-bold inline-flex items-center gap-1">
+                  <i class="fa-brands fa-whatsapp"></i> WhatsApp
+                </a>
+                <button type="button" onclick="deleteOrderRecord('${o.orderId}')" class="tap-press px-2.5 py-1.5 rounded-lg bg-rose-50 text-rose-600 font-bold">Delete</button>
+              </div>
+            </div>
+          </div>
+        `;
+        })
+        .join("");
+    }
+
+    // 4. Customers
+    function renderCustomersSection() {
+      const box = document.getElementById("adminCustomersContainer");
+      if (!box) return;
+      if (state.orders.length === 0) {
+        box.innerHTML = `<p class="col-span-full text-xs text-zinc-500 text-center py-6 bg-white rounded-2xl border border-zinc-200">Customers appear after orders are placed.</p>`;
+        return;
+      }
+
+      const map = new Map();
+      state.orders.forEach((o) => {
+        const key = o.phone || o.customerName;
+        const cur = map.get(key) || { name: o.customerName, phone: o.phone, city: o.cityPin, count: 0, spent: 0 };
+        cur.count += 1;
+        cur.spent += Number(o.totalAmount || 0);
+        map.set(key, cur);
+      });
+
+      box.innerHTML = Array.from(map.values())
+        .map(
+          (c) => `
+        <div class="bg-white p-3.5 rounded-2xl border border-zinc-200 flex items-center justify-between gap-2 text-xs">
+          <div class="min-w-0">
+            <strong class="text-sm text-obsidian block truncate">${c.name}</strong>
+            <span class="text-zinc-500">+91 ${c.phone} • ${c.city || ""}</span>
+            <p class="font-bold text-emerald-700 mt-1">${c.count} Orders • Total ₹${c.spent}</p>
+          </div>
+          <a href="https://wa.me/91${String(c.phone).replace(/\D/g, "").slice(-10)}" target="_blank" rel="noopener noreferrer" class="tap-press px-3 py-2 rounded-xl bg-emerald-600 text-white font-bold shrink-0">
+            <i class="fa-brands fa-whatsapp"></i>
+          </a>
+        </div>
+      `
+        )
+        .join("");
+    }
+
+    // 5. Inventory
+    function toggleLowStockOnly() {
+      playSound("tap");
+      lowStockFilterActive = !lowStockFilterActive;
+      const btn = document.getElementById("lowStockFilterBtn");
+      btn.className = lowStockFilterActive
+        ? "tap-press px-3 py-1.5 rounded-xl bg-obsidian text-white text-xs font-bold"
+        : "tap-press px-3 py-1.5 rounded-xl bg-white border border-zinc-300 text-xs font-bold";
+      renderInventorySection();
+    }
+
+    function adjustProdStock(id, delta) {
+      playSound("tap");
+      const prod = state.products.find((p) => p.id === id);
+      if (!prod) return;
+      prod.stock = Math.max(0, Number(prod.stock ?? 15) + delta);
+      persistPermanentState();
+      renderCatalog();
+      renderAllAdminSections();
+    }
+
+    function renderInventorySection() {
+      const box = document.getElementById("adminInventoryContainer");
+      if (!box) return;
+      const items = lowStockFilterActive
+        ? state.products.filter((p) => Number(p.stock ?? 15) <= 5)
+        : state.products;
+
+      if (items.length === 0) {
+        box.innerHTML = `<p class="text-xs text-zinc-500 text-center py-6 bg-white rounded-2xl border border-zinc-200">No items in this stock view.</p>`;
+        return;
+      }
+
+      box.innerHTML = items
+        .map((p) => {
+          const stk = Number(p.stock ?? 15);
+          return `
+          <div class="bg-white p-3 rounded-2xl border border-zinc-200 flex items-center justify-between gap-2 text-xs">
+            <div class="min-w-0">
+              <strong class="text-obsidian block truncate">${p.name}</strong>
+              <span class="text-zinc-500">${p.category} • ₹${p.price}</span>
+            </div>
+            <div class="flex items-center gap-2 shrink-0">
+              <button type="button" onclick="adjustProdStock('${p.id}', -1)" class="tap-press w-7 h-7 rounded-lg border border-zinc-300 font-bold">-</button>
+              <span class="w-8 text-center font-extrabold text-sm ${stk <= 5 ? "text-rose-600" : "text-obsidian"}">${stk}</span>
+              <button type="button" onclick="adjustProdStock('${p.id}', 1)" class="tap-press w-7 h-7 rounded-lg bg-obsidian text-white font-bold">+</button>
+            </div>
+          </div>
+        `;
+        })
+        .join("");
+    }
+
+    // 6. Coupons
+    function adminCreateCoupon(event) {
+      event.preventDefault();
+      const code = document.getElementById("cpCodeInput").value.trim().toUpperCase();
+      const type = document.getElementById("cpTypeInput").value;
+      const value = Number(document.getElementById("cpValInput").value);
+      const minOrder = Number(document.getElementById("cpMinInput").value);
+      if (!code || value <= 0) return;
+
+      state.coupons.unshift({
+        id: "cp-" + Date.now(),
+        code,
+        type,
+        value,
+        minOrder,
+        active: true
+      });
+      event.target.reset();
+      playSound("confirm");
+      persistPermanentState();
+      renderCouponsSection();
+      showToast(`Coupon ${code} saved`);
+    }
+
+    function toggleCouponState(id) {
+      playSound("tap");
+      const c = state.coupons.find((x) => x.id === id);
+      if (c) c.active = !c.active;
+      persistPermanentState();
+      renderCouponsSection();
+    }
+
+    function deleteCouponItem(id) {
+      playSound("tap");
+      state.coupons = state.coupons.filter((x) => x.id !== id);
+      persistPermanentState();
+      renderCouponsSection();
+      showToast("Coupon deleted");
+    }
+
+    function renderCouponsSection() {
+      const box = document.getElementById("adminCouponsContainer");
+      if (!box) return;
+      box.innerHTML = state.coupons
+        .map(
+          (c) => `
+        <div class="bg-white p-3.5 rounded-2xl border border-zinc-200 flex items-center justify-between gap-2 text-xs">
+          <div>
+            <strong class="font-mono text-sm text-obsidian">${c.code}</strong>
+            <p class="text-zinc-600">${c.type === "percent" ? `${c.value}% OFF` : `₹${c.value} OFF`} • Min ₹${c.minOrder}</p>
+          </div>
+          <div class="flex items-center gap-1.5">
+            <button type="button" onclick="toggleCouponState('${c.id}')" class="tap-press px-2.5 py-1 rounded-lg font-bold ${c.active ? "bg-emerald-100 text-emerald-800" : "bg-zinc-200 text-zinc-600"}">
+              ${c.active ? "Active" : "Paused"}
+            </button>
+            <button type="button" onclick="deleteCouponItem('${c.id}')" class="tap-press px-2.5 py-1 rounded-lg bg-rose-50 text-rose-600 font-bold">Del</button>
+          </div>
+        </div>
+      `
+        )
+        .join("");
+    }
+
+    // 7. Payments
+    function onCustomQrPicked(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      compressPhotoFile(file, (dataUrl) => {
+        state.config.customQrDataUrl = dataUrl;
+        playSound("confirm");
+        persistPermanentState();
+        renderQrDisplays();
+        showToast("Custom QR saved");
+      });
+    }
+
+    function resetQrToDynamic() {
+      playSound("tap");
+      state.config.customQrDataUrl = "";
+      persistPermanentState();
+      renderQrDisplays();
+      showToast("Switched to Auto UPI QR");
+    }
+
+    function savePaymentConfig() {
+      const nameVal = (document.getElementById("payPayeeInput").value || "").trim();
+      const upiVal = (document.getElementById("payUpiInput").value || "").trim();
+      if (nameVal) state.config.merchantName = nameVal;
+      if (upiVal) state.config.upiId = upiVal;
+      playSound("confirm");
+      applyBranding();
+      persistPermanentState();
+      renderQrDisplays();
+      showToast("Payment details saved");
+    }
+
+    function renderPaymentsSection() {
+      const payeeIn = document.getElementById("payPayeeInput");
+      const upiIn = document.getElementById("payUpiInput");
+      if (payeeIn && document.activeElement !== payeeIn) payeeIn.value = state.config.merchantName || "ZCART OFFICIAL";
+      if (upiIn && document.activeElement !== upiIn) upiIn.value = state.config.upiId || "zcart@upi";
+      renderQrDisplays();
+
+      const logBox = document.getElementById("adminUtrLogContainer");
+      if (!logBox) return;
+      if (state.orders.length === 0) {
+        logBox.innerHTML = `<p class="text-xs text-zinc-500">No UTR transactions yet.</p>`;
+        return;
+      }
+      logBox.innerHTML =
+        `<p class="text-xs font-extrabold uppercase text-obsidian mb-1">UTR Payment Log</p>` +
+        state.orders
+          .map(
+            (o) => `
+          <div class="flex items-center justify-between p-2 rounded-xl bg-canvas text-xs">
+            <span><strong class="font-mono">${o.orderId}</strong> • UTR: <strong class="font-mono">${o.utr}</strong></span>
+            <strong class="text-emerald-700">₹${o.totalAmount}</strong>
+          </div>
+        `
+          )
+          .join("");
+    }
+
+    // 8. Returns
+    function updateReturnStatus(retId, status) {
+      playSound("confirm");
+      const r = state.returns.find((x) => x.id === retId);
+      if (!r) return;
+      r.status = status;
+      persistPermanentState();
+      renderReturnsSection();
+      showToast(`${retId}: ${status}`);
+    }
+
+    function renderReturnsSection() {
+      const box = document.getElementById("adminReturnsContainer");
+      if (!box) return;
+      if (state.returns.length === 0) {
+        box.innerHTML = `<p class="text-xs text-zinc-500 text-center py-6 bg-white rounded-2xl border border-zinc-200">No return/refund requests.</p>`;
+        return;
+      }
+
+      box.innerHTML = state.returns
+        .map((r) => {
+          const p10 = String(r.phone || "").replace(/\D/g, "").slice(-10);
+          const waMsg = `https://wa.me/91${p10}?text=${encodeURIComponent(
+            `ZCART Update: Return/Refund ${r.id} for Order ${r.orderId} (₹${r.amount}) is now ${r.status}.`
+          )}`;
+          return `
+          <div class="bg-white p-3.5 rounded-2xl border border-zinc-200 space-y-2 text-xs">
+            <div class="flex items-center justify-between gap-2">
+              <div>
+                <strong class="font-mono text-obsidian">${r.id}</strong> • Order <strong class="font-mono">${r.orderId}</strong>
+                <p class="text-zinc-600 mt-0.5">${r.customerName} (+91 ${r.phone}) • ₹${r.amount}</p>
+                <p class="text-zinc-500">Reason: ${r.reason}</p>
+              </div>
+              <select onchange="updateReturnStatus('${r.id}', this.value)" class="px-2.5 py-1 rounded-lg border border-zinc-300 bg-canvas font-bold">
+                ${["Pending", "Approved", "Refunded", "Rejected"].map((st) => `<option value="${st}" ${r.status === st ? "selected" : ""}>${st}</option>`).join("")}
+              </select>
+            </div>
+            <div class="flex justify-end">
+              <a href="${waMsg}" target="_blank" rel="noopener noreferrer" class="tap-press px-3 py-1.5 rounded-lg bg-emerald-600 text-white font-bold inline-flex items-center gap-1">
+                <i class="fa-brands fa-whatsapp"></i> Notify Customer
+              </a>
+            </div>
+          </div>
+        `;
+        })
+        .join("");
+    }
+
+    // 9. Shipping
+    function hydrateShippingForm() {
+      const f = document.getElementById("shipStdFeeInput");
+      if (!f || document.activeElement === f) return;
+      f.value = state.config.stdShippingFee ?? 49;
+      document.getElementById("shipFreeMinInput").value = state.config.freeShippingMin ?? 999;
+      document.getElementById("shipExpFeeInput").value = state.config.expShippingFee ?? 99;
+      document.getElementById("shipEtaInput").value = state.config.deliveryEta || "3-5 Business Days";
+      document.getElementById("shipExpEnabledInput").checked = Boolean(state.config.expressEnabled);
+    }
+
+    function saveShippingConfig(event) {
+      event.preventDefault();
+      state.config.stdShippingFee = Number(document.getElementById("shipStdFeeInput").value);
+      state.config.freeShippingMin = Number(document.getElementById("shipFreeMinInput").value);
+      state.config.expShippingFee = Number(document.getElementById("shipExpFeeInput").value);
+      state.config.deliveryEta = document.getElementById("shipEtaInput").value.trim() || "3-5 Business Days";
+      state.config.expressEnabled = document.getElementById("shipExpEnabledInput").checked;
+      playSound("confirm");
+      applyBranding();
+      updateBagUI();
+      persistPermanentState();
+      showToast("Shipping saved");
+    }
+
+    // 10. Analytics & CSV
+    function renderAnalyticsSection() {
+      const box = document.getElementById("adminAnalyticsContainer");
+      if (!box) return;
+      const cats = ["Men", "Women", "Ethnic Wear", "Street & Winter", "Kids"];
+      const counts = cats.map((c) => ({
+        c,
+        n: state.products.filter((p) => p.category === c).length
+      }));
+      const top = Math.max(1, ...counts.map((x) => x.n));
+
+      box.innerHTML =
+        `<p class="text-xs font-extrabold uppercase text-obsidian">Clothes per Category</p>` +
+        counts
+          .map(
+            (x) => `
+          <div>
+            <div class="flex justify-between text-xs font-bold mb-1">
+              <span>${x.c}</span>
+              <span>${x.n}</span>
+            </div>
+            <div class="h-2 rounded-full bg-canvas overflow-hidden">
+              <div class="h-full bg-obsidian rounded-full" style="width:${Math.round((x.n / top) * 100)}%"></div>
+            </div>
+          </div>
+        `
+          )
+          .join("");
+    }
+
+    function downloadOrdersCsv() {
+      playSound("confirm");
+      const headers = ["OrderID", "Customer", "Phone", "Address", "CityPin", "Total", "UTR", "Status"];
+      const lines = state.orders.map((o) =>
+        [
+          o.orderId,
+          `"${String(o.customerName || "").replace(/"/g, '""')}"`,
+          o.phone,
+          `"${String(o.address || "").replace(/"/g, '""')}"`,
+          `"${String(o.cityPin || "").replace(/"/g, '""')}"`,
+          o.totalAmount,
+          o.utr,
+          o.status
+        ].join(",")
+      );
+      const blob = new Blob([[headers.join(","), ...lines].join("\n")], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "ZCART_Orders.csv";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast("CSV downloaded");
+    }
+
+    // 11. Banners
+    function hydrateBannerForm() {
+      const el = document.getElementById("banAnnInput");
+      if (!el || document.activeElement === el) return;
+      el.value = state.config.announcement;
+      document.getElementById("banBadgeInput").value = state.config.heroBadge;
+      document.getElementById("banCtaInput").value = state.config.heroCta;
+      document.getElementById("banTitleInput").value = state.config.heroTitle;
+      document.getElementById("banSubInput").value = state.config.heroSubtitle;
+      document.getElementById("banBgInput").value = state.config.heroBgUrl || "";
+    }
+
+    function saveBannerConfig(event) {
+      event.preventDefault();
+      state.config.announcement = document.getElementById("banAnnInput").value.trim();
+      state.config.heroBadge = document.getElementById("banBadgeInput").value.trim();
+      state.config.heroCta = document.getElementById("banCtaInput").value.trim();
+      state.config.heroTitle = document.getElementById("banTitleInput").value.trim();
+      state.config.heroSubtitle = document.getElementById("banSubInput").value.trim();
+      state.config.heroBgUrl = document.getElementById("banBgInput").value.trim();
+      playSound("confirm");
+      applyBranding();
+      persistPermanentState();
+      showToast("Banners updated");
+    }
+
+    // 12. Reviews
+    function toggleReviewVisibility(id) {
+      playSound("tap");
+      const r = state.reviews.find((x) => x.id === id);
+      if (r) r.visible = !r.visible;
+      persistPermanentState();
+      renderCatalog();
+      renderAdminReviewsSection();
+    }
+
+    function saveReviewReply(id) {
+      const inp = document.getElementById(`revReplyField-${id}`);
+      const r = state.reviews.find((x) => x.id === id);
+      if (r && inp) r.reply = inp.value.trim();
+      playSound("confirm");
+      persistPermanentState();
+      renderAdminReviewsSection();
+      showToast("Reply saved");
+    }
+
+    function deleteReviewItem(id) {
+      playSound("tap");
+      state.reviews = state.reviews.filter((x) => x.id !== id);
+      persistPermanentState();
+      renderCatalog();
+      renderAdminReviewsSection();
+      showToast("Review removed");
+    }
+
+    function renderAdminReviewsSection() {
+      const box = document.getElementById("adminReviewsContainer");
+      if (!box) return;
+      if (state.reviews.length === 0) {
+        box.innerHTML = `<p class="text-xs text-zinc-500 text-center py-6 bg-white rounded-2xl border border-zinc-200">No reviews.</p>`;
+        return;
+      }
+      box.innerHTML = state.reviews
+        .map(
+          (r) => `
+        <div class="bg-white p-3.5 rounded-2xl border border-zinc-200 space-y-2 text-xs">
+          <div class="flex items-center justify-between gap-2">
+            <div>
+              <strong class="text-obsidian">${r.author}</strong> on <span class="text-zinc-600">${r.productName}</span>
+              <span class="text-amber-500 font-bold ml-1">${"★".repeat(Number(r.rating || 5))}</span>
+            </div>
+            <div class="flex gap-1.5">
+              <button type="button" onclick="toggleReviewVisibility('${r.id}')" class="tap-press px-2.5 py-1 rounded-lg font-bold ${r.visible ? "bg-emerald-100 text-emerald-800" : "bg-zinc-200 text-zinc-700"}">${r.visible ? "Shown" : "Hidden"}</button>
+              <button type="button" onclick="deleteReviewItem('${r.id}')" class="tap-press px-2.5 py-1 rounded-lg bg-rose-50 text-rose-600 font-bold">Del</button>
+            </div>
+          </div>
+          <p class="text-zinc-700">${r.comment}</p>
+          <div class="flex gap-1.5">
+            <input type="text" id="revReplyField-${r.id}" value="${String(r.reply || "").replace(/"/g, "&quot;")}" placeholder="Admin reply..." class="flex-1 min-w-0 px-2.5 py-1.5 rounded-xl border border-zinc-300 text-xs outline-none" />
+            <button type="button" onclick="saveReviewReply('${r.id}')" class="tap-press px-3 py-1.5 rounded-xl bg-obsidian text-white font-bold shrink-0">Reply</button>
+          </div>
+        </div>
+      `
+        )
+        .join("");
+    }
+
+    // 13. Customer Support
+    function toggleTicketStatus(id) {
+      playSound("tap");
+      const t = state.tickets.find((x) => x.id === id);
+      if (t) t.status = t.status === "Open" ? "Resolved" : "Open";
+      persistPermanentState();
+      renderSupportSection();
+    }
+
+    function renderSupportSection() {
+      const box = document.getElementById("adminSupportContainer");
+      if (!box) return;
+      if (state.tickets.length === 0) {
+        box.innerHTML = `<p class="text-xs text-zinc-500 text-center py-6 bg-white rounded-2xl border border-zinc-200">No support tickets.</p>`;
+        return;
+      }
+      box.innerHTML = state.tickets
+        .map((t) => {
+          const p10 = String(t.phone || "").replace(/\D/g, "").slice(-10);
+          return `
+          <div class="bg-white p-3.5 rounded-2xl border border-zinc-200 flex flex-wrap items-center justify-between gap-2 text-xs">
+            <div class="min-w-0">
+              <strong class="font-mono text-obsidian">${t.id}</strong> • <strong>${t.name}</strong> (+91 ${t.phone})
+              <p class="text-zinc-600 mt-0.5">${t.message}</p>
+            </div>
+            <div class="flex items-center gap-1.5 shrink-0">
+              <a href="https://wa.me/91${p10}" target="_blank" rel="noopener noreferrer" class="tap-press px-2.5 py-1.5 rounded-lg bg-emerald-600 text-white font-bold">
+                <i class="fa-brands fa-whatsapp"></i>
+              </a>
+              <button type="button" onclick="toggleTicketStatus('${t.id}')" class="tap-press px-2.5 py-1.5 rounded-lg font-bold ${t.status === "Open" ? "bg-amber-100 text-amber-900" : "bg-zinc-200 text-zinc-700"}">${t.status}</button>
+            </div>
+          </div>
+        `;
+        })
+        .join("");
+    }
+
+    // 14. Staff Management
+    function adminAddStaffUser(event) {
+      event.preventDefault();
+      const name = document.getElementById("stfNameInput").value.trim();
+      const role = document.getElementById("stfRoleInput").value;
+      const pin = document.getElementById("stfPinInput").value.trim();
+      if (!name || !pin) return;
+
+      state.staff.unshift({
+        id: "st-" + Date.now(),
+        name,
+        role,
+        pin,
+        active: true
+      });
+      event.target.reset();
+      playSound("confirm");
+      persistPermanentState();
+      renderStaffSection();
+      showToast(`Staff ${name} added`);
+    }
+
+    function toggleStaffActive(id) {
+      playSound("tap");
+      const s = state.staff.find((x) => x.id === id);
+      if (s) s.active = !s.active;
+      persistPermanentState();
+      renderStaffSection();
+    }
+
+    function removeStaffUser(id) {
+      playSound("tap");
+      state.staff = state.staff.filter((x) => x.id !== id);
+      persistPermanentState();
+      renderStaffSection();
+      showToast("Staff removed");
+    }
+
+    function renderStaffSection() {
+      const box = document.getElementById("adminStaffContainer");
+      if (!box) return;
+      box.innerHTML =
+        `<div class="bg-obsidian text-white p-3.5 rounded-2xl flex items-center justify-between text-xs">
+          <div><strong>Master Owner</strong><p class="text-zinc-400">Full Access to all 15 sections</p></div>
+          <span class="px-2.5 py-0.5 rounded-full bg-gold text-obsidian font-extrabold text-[10px]">OWNER</span>
+        </div>` +
+        state.staff
+          .map(
+            (s) => `
+          <div class="bg-white p-3.5 rounded-2xl border border-zinc-200 flex items-center justify-between gap-2 text-xs">
+            <div>
+              <strong class="text-obsidian">${s.name}</strong> • <span class="text-zinc-600">${s.role}</span>
+              <p class="text-[11px] text-zinc-500">PIN: <strong class="font-mono text-obsidian">${s.pin}</strong></p>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <button type="button" onclick="toggleStaffActive('${s.id}')" class="tap-press px-2.5 py-1 rounded-lg font-bold ${s.active ? "bg-emerald-100 text-emerald-800" : "bg-zinc-200 text-zinc-600"}">${s.active ? "Active" : "Inactive"}</button>
+              <button type="button" onclick="removeStaffUser('${s.id}')" class="tap-press px-2.5 py-1 rounded-lg bg-rose-50 text-rose-600 font-bold">Remove</button>
+            </div>
+          </div>
+        `
+          )
+          .join("");
+    }
+
+    // 15. Settings
+    function hydrateSettingsForm() {
+      const el = document.getElementById("setBrandInput");
+      if (!el || document.activeElement === el) return;
+      el.value = state.config.storeName || "ZCART";
+      document.getElementById("setInstaInput").value = state.config.instaHandle || "zcartofficials_";
+      document.getElementById("setPhoneInput").value = state.config.supportPhone || "";
+      document.getElementById("setPassInput").value = state.config.adminPassword || "Amitsingh#2007";
+      document.getElementById("setMaintInput").checked = Boolean(state.config.maintenanceMode);
+    }
+
+    function saveStoreSettings(event) {
+      event.preventDefault();
+      state.config.storeName = document.getElementById("setBrandInput").value.trim() || "ZCART";
+      state.config.instaHandle = document.getElementById("setInstaInput").value.trim().replace(/^@/, "") || "zcartofficials_";
+      state.config.supportPhone = document.getElementById("setPhoneInput").value.trim();
+      state.config.adminPassword = document.getElementById("setPassInput").value.trim() || "Amitsingh#2007";
+      state.config.maintenanceMode = document.getElementById("setMaintInput").checked;
+      playSound("confirm");
+      applyBranding();
+      persistPermanentState();
+      showToast("Settings saved");
+    }
+
+    function restoreDefaultClothes(keepOrders = true) {
+      playSound("tap");
+      state.products = [...DEFAULT_CLOTHES];
+      if (!keepOrders) state.orders = [];
+      persistPermanentState();
+      renderCatalog();
+      renderAllAdminSections();
+      showToast("Demo clothes restored");
+    }
+
+    // ==================== UTILITIES & BOOT ====================
+    function copyClipboard(text, msg) {
+      playSound("tap");
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      ta.style.position = "fixed";
+      ta.style.opacity = "0";
+      document.body.appendChild(ta);
+      ta.select();
+      try {
+        document.execCommand("copy");
+      } catch (e) {}
+      document.body.removeChild(ta);
+      showToast(msg || "Copied");
+    }
+
+    let toastTimer = null;
+    function showToast(msg) {
+      const box = document.getElementById("toastBox");
+      const txt = document.getElementById("toastText");
+      if (!box || !txt) return;
+      txt.textContent = msg;
+      box.classList.remove("hidden");
+      box.classList.add("flex");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        box.classList.add("hidden");
+        box.classList.remove("flex");
+      }, 2500);
+    }
+
+    function finishBootScreen() {
+      const boot = document.getElementById("bootScreen");
+      const status = document.getElementById("bootStatusText");
+      if (!boot || boot.dataset.done === "1") return;
+      boot.dataset.done = "1";
+      if (status) status.textContent = "SERVER CONNECTED";
+      boot.style.opacity = "0";
+      boot.style.pointerEvents = "none";
+      setTimeout(() => {
+        boot.classList.add("hidden");
+        boot.style.display = "none";
+      }, 450);
+    }
+
+    function bootApp() {
+      loadInitialStateSync();
+      applyBranding();
+      renderQrDisplays(0);
+      renderCatalog();
+      updateBagUI();
+      buildAdminNav();
+      renderAllAdminSections();
+      syncWithIndexedDBIfNewer();
+
+      setTimeout(finishBootScreen, 950);
+      setTimeout(finishBootScreen, 1200);
+    }
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", bootApp);
+    } else {
+      bootApp();
+    }
+    window.addEventListener("load", () => setTimeout(finishBootScreen, 950));
+  </script>
+</body>
+</html>
